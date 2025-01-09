@@ -1,5 +1,33 @@
 # Avionets Project Documentation
 
+## Structure:
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── com/
+│   │       └── avionets/
+│   │           ├── configuration/
+│   │           ├── controller/
+│   │           ├── integration/
+│   │           ├── dto/
+│   │           ├── mapper/
+│   │           ├── model/
+│   │           ├── runner/
+│   │           ├── util/
+│   │           └── AvionetsApiApplication.java
+│   └── resources/
+│       ├── application.properties
+│       └── META-INF/
+│           └── resources/
+│               └── (Swagger UI resources)
+└── test/
+    └── java/
+        └── com/
+            └── avionets/
+                └── (Test classes)
+
+```
 ## Technologies:
 
 - Java 21
