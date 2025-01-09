@@ -19,7 +19,8 @@ public class User {
     private String mail;
     private String profilePicture;
 
-    public User(String name, String password, Integer age, String address, String mail) {
+    public User(Role role, String name, String password, Integer age, String address, String mail) {
+        this.role = role;
         this.name = name;
         this.password = password;
         this.age = age;
