@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -27,16 +28,6 @@ public class UserController {
     @PostMapping
     public User createUser(@RequestBody User user) {
         return userRepository.save(user);
-    }
-
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user != null) {
-            user.setProfilePicture(updatedUser.getProfilePicture());
-            userRepository.save(user);
-        }
-        return user;
     }
 
     @DeleteMapping("/{id}")

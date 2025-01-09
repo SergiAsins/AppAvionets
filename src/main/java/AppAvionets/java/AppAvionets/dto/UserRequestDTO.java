@@ -1,4 +1,4 @@
-package AppAvionets.java.AppAvionets.dto;
+/*package AppAvionets.java.AppAvionets.dto;
 
 import jakarta.validation.constraints.*;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -11,3 +11,4 @@ public record UserRequestDTO(
 ){
 
 }
+*/

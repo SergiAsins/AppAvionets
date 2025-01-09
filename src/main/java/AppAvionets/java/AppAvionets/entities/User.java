@@ -3,6 +3,7 @@ package AppAvionets.java.AppAvionets.entities;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,20 +20,13 @@ public class User {
     private String mail;
     private String profilePicture;
 
-    public User(Role role, String name, String password, Integer age, String address, String mail) {
+    public User(Role role, String name, String password, Integer age, String address, String mail, String profilePicture) {
         this.role = role;
         this.name = name;
         this.password = password;
         this.age = age;
         this.address = address;
         this.mail = mail;
-    }
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 }
