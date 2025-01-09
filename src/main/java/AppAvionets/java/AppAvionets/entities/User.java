@@ -27,4 +27,12 @@ public class User {
         this.address = address;
         this.mail = mail;
     }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
 }
