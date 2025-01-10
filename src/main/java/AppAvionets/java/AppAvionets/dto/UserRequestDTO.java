@@ -1,14 +1,33 @@
-/*package AppAvionets.java.AppAvionets.dto;
+package AppAvionets.java.AppAvionets.dto;
 
+import AppAvionets.java.AppAvionets.entities.Role;
 import jakarta.validation.constraints.*;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.hibernate.annotations.NotFound;
+
 
 public record UserRequestDTO(
-        @NotNull(message = "The name cannot be nut")
-        @NotEmpty(message = "The name cannot be emtpy")
-        String name,
-){
 
+        Role role,
+
+        @NotNull(message = "The name cannot be null")
+        @NotEmpty(message = "The name cannot be empty")
+        String name,
+
+        @NotNull(message = "The pwd cannot be null")
+        @NotEmpty(message = "The pwd cannot be empty")
+        String password,
+
+        Integer age,
+
+        @NotNull(message = "The address cannot be null")
+        @NotEmpty(message = "The address cannot be empty")
+        String address,
+
+        @NotNull(message = "The email cannot be null")
+        @NotEmpty(message = "The email cannot be empty")
+        @Email(message = "The email must be a correctly formatted address")
+        String email,
+
+        String profilePicture
+) {
 }
-*/
+

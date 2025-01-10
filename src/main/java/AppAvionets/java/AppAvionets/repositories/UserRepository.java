@@ -3,6 +3,10 @@ package AppAvionets.java.AppAvionets.repositories;
 import AppAvionets.java.AppAvionets.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface UserRepository extends JpaRepository<User, Long> {
-  // we don't need additional methods now, because JpaRepository already has CRUD
+    //JpaRepository already has CRUD
+    List<User> findByNameIgnoreCaseContaining(String name);
+
 }
