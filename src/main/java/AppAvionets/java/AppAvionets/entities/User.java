@@ -30,6 +30,7 @@ public class User {
         this.profilePicture = profilePicture;
     }
 
+    //getters y setters
     public Long getId() {
         return id;
     }
