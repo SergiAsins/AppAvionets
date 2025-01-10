@@ -1,6 +1,7 @@
 package AppAvionets.java.AppAvionets.entities;
 
 import jakarta.persistence.*;
+//import lombok.*;
 
 @Entity
 @Table(name = "users")
@@ -30,7 +31,9 @@ public class User {
         this.profilePicture = profilePicture;
     }
 
-    //getters y setters
+    public User() {
+    }
+
     public Long getId() {
         return id;
     }
