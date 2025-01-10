@@ -29,6 +29,12 @@ public class AirportController {
         return new ResponseEntity<>(airportResponseDTO, HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<AirportResponseDTO>> getAllAirports() {
+        List<AirportResponseDTO> airports = airportService.findAll();
+        return new ResponseEntity<>(airports, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<AirportResponseDTO> getAirportById(@PathVariable Long id){
         AirportResponseDTO airportResponseDTO = airportService.findById(id);
@@ -41,7 +47,7 @@ public class AirportController {
         return new ResponseEntity<>(airportResponseDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAirport(@PathVariable Long id){
         airportService.deleteAirportById(id);
         return new ResponseEntity<>("The airport has been eliminated", HttpStatus.OK);

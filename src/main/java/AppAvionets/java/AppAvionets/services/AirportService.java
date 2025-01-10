@@ -34,7 +34,7 @@ public class AirportService {
     public AirportResponseDTO findById(Long id){
         Optional<Airport> optionalAirport = airportRepository.findById(id);
 
-        if (optionalAirport.isPresent()){
+        if (optionalAirport.isEmpty()){
             throw new AirCompanyNotFoundException("The Airport with the id" + id + "does not exist.");
         }
         Airport airport = optionalAirport.get();
@@ -62,7 +62,7 @@ public class AirportService {
     public void deleteAirportById(Long id){
         Optional<Airport> optionalAirport = airportRepository.findById(id);
 
-        if(optionalAirport.isPresent()){
+        if(optionalAirport.isEmpty()){
             throw new AirCompanyNotFoundException("The airport with id" + "does not exist.");
         }
         airportRepository.deleteById(id);
