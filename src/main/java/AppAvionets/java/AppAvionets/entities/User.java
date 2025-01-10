@@ -1,7 +1,7 @@
 package AppAvionets.java.AppAvionets.entities;
 
 import jakarta.persistence.*;
-//import lombok.*;
+//import lombok.*; //no functional
 
 @Entity
 @Table(name = "users")
