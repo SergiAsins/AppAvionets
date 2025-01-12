@@ -29,12 +29,12 @@ public class FlightService {
     public FlightResponseDTO createFlight(FlightRequestDTO flightRequestDTO){
         Optional<Flight> existFlight = flightRepository.findByFlightNumberAndOrigin_id(flightRequestDTO.flightNumber(), flightRequestDTO.airportOriginId());
         if(existFlight.isPresent()){
-            throw  new AirCompanyAlreadyExistsException("There is already a flight with this name linked to this airport");
+            throw  new AirCompanyAlreadyExistsException("There is already a flight with this name linked to this airport.");
         }
 
         Optional<Airport> originAirport = airportRepository.findById(flightRequestDTO.airportOriginId());
         if (originAirport.isEmpty()) {
-            throw new AirCompanyNotFoundException("Origin airport not found");
+            throw new AirCompanyNotFoundException("Origin airport not found.");
         }
 
         Optional<Airport> destinationAirport = airportRepository.findById(flightRequestDTO.airportDestinationId());
@@ -57,7 +57,7 @@ public class FlightService {
         });
 
         if(flightList.isEmpty()){
-            throw new AirCompanyNotFoundException("There are no flights to show");
+            throw new AirCompanyNotFoundException("There are no flights to show.");
         }
         return responseList;
     }

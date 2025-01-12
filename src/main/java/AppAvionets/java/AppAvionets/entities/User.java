@@ -34,6 +34,7 @@ public class User {
     public User() {
     }
 
+    //getters y setters}
     public Long getId() {
         return id;
     }

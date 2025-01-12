@@ -47,7 +47,7 @@ public class UserService {
         List<User> users = userRepository.findByNameIgnoreCaseContaining(name);
 
         if(users.isEmpty()){
-            throw new AirCompanyNotFoundException("The user with the name" + name + "does not exist");
+            throw new AirCompanyNotFoundException("The user with the name" + name + "does not exist.");
         }
         return users.stream()
                 .map(UserMapper::toResponseDTO).toList();
