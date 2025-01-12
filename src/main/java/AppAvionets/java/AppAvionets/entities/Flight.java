@@ -23,19 +23,21 @@ public class Flight {
     @JoinColumn(name = "destination_id")
     Airport destination;
 
-    Timestamp departure;
-    Timestamp arrival;
+    Timestamp departureTime;
+    Timestamp arrivalTime;
     Integer availableSeats;
 
     public Flight() {
     }
 
-    public Flight(Timestamp arrival, Timestamp departure, Airport destination, Airport origin, String flightHumber) {
-        this.arrival = arrival;
-        this.departure = departure;
-        this.destination = destination;
+    public Flight(String flightNumber, Boolean status, Airport origin, Airport destination, Timestamp departureTime, Timestamp arrivalTime, Integer availableSeats) {
+        this.flightHumber = flightNumber;
+        this.status = status;
         this.origin = origin;
-        this.flightHumber = flightHumber;
+        this.destination = destination;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.availableSeats = availableSeats;
     }
 
     public Flight (Optional<Flight> byId){
@@ -58,12 +60,12 @@ public class Flight {
         this.destination = destination;
     }
 
-    public void setDeparture(Timestamp departure) {
-        this.departure = departure;
+    public void setDepartureTime(Timestamp departureTime) {
+        this.departureTime = departureTime;
     }
 
-    public void setArrival(Timestamp arrival) {
-        this.arrival = arrival;
+    public void setArrivalTime(Timestamp arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public void setAvailableSeats(Integer availableSeats) {
@@ -90,12 +92,12 @@ public class Flight {
         return destination;
     }
 
-    public Timestamp getDeparture() {
-        return departure;
+    public Timestamp getDepartureTime() {
+        return departureTime;
     }
 
-    public Timestamp getArrival() {
-        return arrival;
+    public Timestamp getArrivalTime() {
+        return arrivalTime;
     }
 
     public Integer getAvailableSeats() {
