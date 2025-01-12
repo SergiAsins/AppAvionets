@@ -32,13 +32,18 @@ public class FlightService {
             throw  new AirCompanyAlreadyExistsException("There is already a flight with this name linked to this airport");
         }
 
-        Optional<Airport> existAirport = airportRepository.findById(flightRequestDTO.airportOriginId());
-        if (existAirport.isEmpty()) {
-            throw new AirCompanyNotFoundException("There is no airport with this id");
+        Optional<Airport> originAirport = airportRepository.findById(flightRequestDTO.airportOriginId());
+        if (originAirport.isEmpty()) {
+            throw new AirCompanyNotFoundException("Origin airport not found");
         }
 
-        Airport airport = existAirport.get();
-        Flight flightToSave = FlightMapper.toEntity(flightRequestDTO, airport, airport);
+        Optional<Airport> destinationAirport = airportRepository.findById(flightRequestDTO.airportDestinationId());
+        if (destinationAirport.isEmpty()) {
+            throw new AirCompanyNotFoundException("Destination airport not found");
+        }
+
+        //Map and save the Flight
+        Flight flightToSave = FlightMapper.toEntity(flightRequestDTO, originAirport.get() , destinationAirport.get());
         Flight savedFlight = flightRepository.save(flightToSave);
         return FlightMapper.toResponseDTO(savedFlight);
     }
