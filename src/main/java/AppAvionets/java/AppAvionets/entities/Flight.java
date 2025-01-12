@@ -12,7 +12,7 @@ public class Flight {
     @Column(nullable = false)
     private Long idFlight;
 
-    String flightHumber;
+    String flightNumber;
     Boolean status;
 
     @OneToOne
@@ -31,7 +31,7 @@ public class Flight {
     }
 
     public Flight(String flightNumber, Boolean status, Airport origin, Airport destination, Timestamp departureTime, Timestamp arrivalTime, Integer availableSeats) {
-        this.flightHumber = flightNumber;
+        this.flightNumber = flightNumber;
         this.status = status;
         this.origin = origin;
         this.destination = destination;
@@ -43,9 +43,9 @@ public class Flight {
     public Flight (Optional<Flight> byId){
     }
 
-    //getters and setters
-    public void setFlightHumber(String flightHumber) {
-        this.flightHumber = flightHumber;
+    //getters and setters}
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
     }
 
     public void setStatus(Boolean status) {
@@ -76,8 +76,8 @@ public class Flight {
         return idFlight;
     }
 
-    public String getFlightHumber() {
-        return flightHumber;
+    public String getFlightNumber() {
+        return flightNumber;
     }
 
     public Boolean getStatus() {

@@ -21,7 +21,7 @@ public class FlightMapper {
     public static FlightResponseDTO toResponseDTO(Flight flight) {
         return new FlightResponseDTO(
                 flight.getIdFlight(),
-                flight.getFlightHumber(),
+                flight.getFlightNumber(),
                 flight.getStatus(),
                 AirportMapper.toResponseDto(flight.getOrigin()),
                 AirportMapper.toResponseDto(flight.getDestination()),

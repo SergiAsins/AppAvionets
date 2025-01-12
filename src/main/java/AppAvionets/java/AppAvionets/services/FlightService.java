@@ -1,7 +1,6 @@
 package AppAvionets.java.AppAvionets.services;
 
 import AppAvionets.java.AppAvionets.dto.FlightRequestDTO;
-import AppAvionets.java.AppAvionets.dto.FlightRequestDTO;
 import AppAvionets.java.AppAvionets.dto.FlightResponseDTO;
 import AppAvionets.java.AppAvionets.entities.Airport;
 import AppAvionets.java.AppAvionets.entities.Flight;
@@ -28,7 +27,7 @@ public class FlightService {
     }
 
     public FlightResponseDTO createFlight(FlightRequestDTO flightRequestDTO){
-        Optional<Flight> existFlight = flightRepository.findByNameAndAirportId(flightRequestDTO.flightNumber(), flightRequestDTO.airportOriginId());
+        Optional<Flight> existFlight = flightRepository.findByFlightNumberAndOrigin_id(flightRequestDTO.flightNumber(), flightRequestDTO.airportOriginId());
         if(existFlight.isPresent()){
             throw  new AirCompanyAlreadyExistsException("There is already a flight with this name linked to this airport");
         }
@@ -97,7 +96,7 @@ public class FlightService {
                 throw new AirCompanyNotFoundException("Destination airport with ID " + flightRequestDTO.airportDestinationId() + " does not exist.");
             }
 
-            flight.setFlightHumber(flightRequestDTO.flightNumber());
+            flight.setFlightNumber(flightRequestDTO.flightNumber());
             flight.setStatus(flightRequestDTO.status());
             flight.setOrigin(originAirportOptional.get());
             flight.setDestination(destinationAirportOptional.get());
