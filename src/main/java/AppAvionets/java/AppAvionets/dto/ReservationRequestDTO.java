@@ -13,7 +13,7 @@ public record ReservationRequestDTO(
         Long flightId,
 
         @NotNull(message = "the field date cannot be null")
-        @Future(message = "The date cannot be previous to actual date")
+        //@Future(message = "The date cannot be previous to actual date")
         Timestamp ticketTime,
 
         @NotNull(message = "the field date cannot be null")
