@@ -14,6 +14,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long idReservation;
+
+    //ticket time is current time
     private Timestamp ticketTime;
 
     @OneToOne

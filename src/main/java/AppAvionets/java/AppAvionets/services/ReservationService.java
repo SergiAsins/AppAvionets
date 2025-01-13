@@ -33,8 +33,8 @@ public class ReservationService {
     public ReservationResponseDTO createReservation(ReservationRequestDTO reservationRequestDTO) {
         Optional<User> user = userRepository.findById(reservationRequestDTO.userId());
         Optional<Flight> flight = flightRepository.findById(reservationRequestDTO.flightId());
-        /* 24h previous booking guard:
-        if (reservationRequestDTO.ticketTime().before(new Timestamp(System.currentTimeMillis() + 24 * 60 * 60 * 1000))) {
+        // 24h previous booking guard:
+        /*if (reservationRequestDTO.ticketTime().before(new Timestamp(System.currentTimeMillis() + 24 * 60 * 60 * 1000))) {
             throw new IllegalArgumentException("Reservations must be made at least 24 hours in advance.");
         }*/
 

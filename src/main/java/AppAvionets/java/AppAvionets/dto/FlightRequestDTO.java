@@ -2,6 +2,7 @@ package AppAvionets.java.AppAvionets.dto;
 
 import AppAvionets.java.AppAvionets.entities.Airport;
 import AppAvionets.java.AppAvionets.entities.Flight;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -22,9 +23,11 @@ public record FlightRequestDTO (
         Long airportDestinationId,
 
         @NotNull(message = "The departure time cannot be null")
+        @Future(message = "The date cannot be previous to actual date")
         Timestamp departureTime,
 
         @NotNull(message = "The arrival time cannot be null")
+        @Future(message = "The date cannot be previous to actual date")
         Timestamp arrivalTime,
 
         @NotNull(message = "The available seats cannot be null")
