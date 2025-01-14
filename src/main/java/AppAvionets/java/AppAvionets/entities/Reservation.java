@@ -15,7 +15,7 @@ public class Reservation {
     @Column(name = "id", nullable = false)
     private Long idReservation;
 
-    //ticket time is current time
+    //current time when posts the reservation
     private Timestamp ticketTime;
 
     @OneToOne

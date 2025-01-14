@@ -1,6 +1,7 @@
 package AppAvionets.java.AppAvionets.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 //import lombok.*;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -23,8 +24,18 @@ public class Flight {
     @JoinColumn(name = "destination_id")
     Airport destination;
 
+    @Future(message = "A Flight must be planned in advance.")
     Timestamp departureTime;
+
+    @PrePersist
+    @PreUpdate
+    private void validateFlightTimes() {
+        if (this.arrivalTime.before(this.departureTime)) {
+            throw new IllegalStateException("Arrival time must be later than departure time.");
+        }
+    }
     Timestamp arrivalTime;
+
     Integer availableSeats;
 
     public Flight() {
@@ -41,6 +52,16 @@ public class Flight {
     }
 
     public Flight (Optional<Flight> byId){
+    }
+
+    public void reserveSeats(int seats) {
+        if (seats <= 0 || seats > this.availableSeats) {
+            throw new IllegalArgumentException("Invalid number of seats to reserve.");
+        }
+        this.availableSeats -= seats;
+        if (this.availableSeats == 0) {
+            this.status = false;
+        }
     }
 
     //getters and setters}

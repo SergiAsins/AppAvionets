@@ -32,22 +32,30 @@ public class ReservationService {
 
     public ReservationResponseDTO createReservation(ReservationRequestDTO reservationRequestDTO) {
         Optional<User> user = userRepository.findById(reservationRequestDTO.userId());
-        Optional<Flight> flight = flightRepository.findById(reservationRequestDTO.flightId());
-        // 24h previous booking guard:
-        /*if (reservationRequestDTO.ticketTime().before(new Timestamp(System.currentTimeMillis() + 24 * 60 * 60 * 1000))) {
-            throw new IllegalArgumentException("Reservations must be made at least 24 hours in advance.");
-        }*/
+        Optional<Flight> optionalFlight = flightRepository.findById(reservationRequestDTO.flightId());
 
         if (user.isEmpty()) {
             throw new AirCompanyNotFoundException("There is no User with this ID.");
         }
 
-        if (flight.isEmpty()) {
+        if (optionalFlight.isEmpty()) {
             throw new AirCompanyNotFoundException("There is no Flight with this ID.");
         }
 
-        Reservation reservation = ReservationMapper.toEntity(reservationRequestDTO, user.get(), flight.get());
+        Flight flight = optionalFlight.get();
+
+        //Validates and updates availableSeats
+        if(reservationRequestDTO.seats() > flight.getAvailableSeats()){
+            throw new IllegalArgumentException("Not enough seats available for this Flight.");
+        };
+
+
+        Reservation reservation = ReservationMapper.toEntity(reservationRequestDTO, user.get(), optionalFlight.get());
         Reservation savedReservation = reservationRepository.save(reservation);
+
+        flight.reserveSeats(reservationRequestDTO.seats());
+        flightRepository.save(flight);
+
         return ReservationMapper.toResponseDto(savedReservation);
     }
 
