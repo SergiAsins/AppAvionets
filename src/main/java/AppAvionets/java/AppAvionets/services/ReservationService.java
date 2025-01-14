@@ -49,7 +49,6 @@ public class ReservationService {
             throw new IllegalArgumentException("Not enough seats available for this Flight.");
         };
 
-
         Reservation reservation = ReservationMapper.toEntity(reservationRequestDTO, user.get(), optionalFlight.get());
         Reservation savedReservation = reservationRepository.save(reservation);
 
