@@ -11,5 +11,4 @@ public class AppAvionetsApplication {
 		SpringApplication.run(AppAvionetsApplication.class, args);
 		System.out.println("Starts Fly");
 	}
-
 }
