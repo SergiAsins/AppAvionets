@@ -2,7 +2,6 @@ package AppAvionets.java.AppAvionets;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import AppAvionets.java.AppAvionets.controllers.UserController;
 
 @SpringBootApplication
 public class AppAvionetsApplication {
