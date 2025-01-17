@@ -24,7 +24,7 @@ public class FlightService {
     public FlightResponseDTO createFlight(FlightRequestDTO flightRequestDTO){
         Optional<Flight> existFlight = flightRepository.findByFlightNumberAndOrigin_id(flightRequestDTO.flightNumber(), flightRequestDTO.airportOriginId());
         if(existFlight.isPresent()){
-            throw  new AirCompanyAlreadyExistsException("There is already a flight with this name linked to this airport.");
+            throw  new AirCompanyAlreadyExistsException("There is already a flight with this username linked to this airport.");
         }
 
         Optional<Airport> originAirport = airportRepository.findById(flightRequestDTO.airportOriginId());

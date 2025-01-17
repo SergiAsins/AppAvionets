@@ -8,9 +8,9 @@ public record UserRequestDTO(
 
         Role role,
 
-        @NotNull(message = "The name cannot be null")
-        @NotEmpty(message = "The name cannot be empty")
-        String name,
+        @NotNull(message = "The username cannot be null")
+        @NotEmpty(message = "The username cannot be empty")
+        String username,
 
         @NotNull(message = "The pwd cannot be null")
         @NotEmpty(message = "The pwd cannot be empty")

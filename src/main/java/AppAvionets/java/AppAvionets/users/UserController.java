@@ -30,11 +30,11 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponseDTO> getUserByName(@PathParam("name") String name){
+    public List<UserResponseDTO> getUserByName(@PathParam("username") String name){
         if(name == null){
             return userService.findAll();
         }
-        return userService.findByNameIgnoringCase(name);
+        return userService.findByUsernameIgnoreCaseContaining(name);
     }
 
     @PutMapping("/{id}")

@@ -9,8 +9,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //JpaRepository already has CRUD
     Optional<User> findById(Long Id);
 
-    List<User> findByNameIgnoreCaseContaining(String name);
+    List<User> findByUsernameIgnoreCaseContaining(String username);
 
-    public Optional<User> findByUsername(String name);
+    public Optional<User> findByUsername(String username);
 
 }

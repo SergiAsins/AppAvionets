@@ -24,24 +24,27 @@ public class RegisterService {
         this.roleService = roleService;
     }
 
-public Map<String, String> save(UserResponseDTO userData){
+public Map<String, String> save(UserRequestDTO userRequestDTO){
 
-    Decoder decoder = Base64.getDecoder();
-    byte[] decodedBytes = decoder.decode(userData.password());
-    String passwordDecoded = new String(decodedBytes);
+    //Decode the base64 password
+    String passwordDecoded = new String(Base64.getDecoder().decode(userRequestDTO.password()));
 
-    System.out.println("<----------" + passwordDecoded);
-
+    //Encrypt the password
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     String passwordEncoded = encoder.encode(passwordDecoded);
 
-    User newUser = new User(userData.name(), passwordEncoded);
-    newUser.setRoles(roleService.assignDefaultRole());
+    //Create User Entity
+    User user = new User();
+    user.setUsername(userRequestDTO.username());
+    user.setPassword(passwordEncoded);
+    user.setRoles(roleService.assignDefaultRole());
 
-    userRepository.save(newUser);
+    //Save User entity to the repository
+    userRepository.save(user);
 
+    //Prepare response
     Map<String, String> response = new HashMap<>();
-    response.put("message", "Success");
+    response.put("message", "User registered successfully");
 
     return response;
     }

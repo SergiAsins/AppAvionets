@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -37,11 +38,11 @@ public class UserService {
         return UserMapper.toResponseDTO(user);
     }
 
-    public List<UserResponseDTO> findByNameIgnoringCase(String name){
-        List<User> users = userRepository.findByNameIgnoreCaseContaining(name);
+    public List<UserResponseDTO> findByUsernameIgnoreCaseContaining(String name){
+        List<User> users = userRepository.findByUsernameIgnoreCaseContaining(name);
 
         if(users.isEmpty()){
-            throw new AirCompanyNotFoundException("The user with the name" + name + "does not exist.");
+            throw new AirCompanyNotFoundException("The user with the username" + name + "does not exist.");
         }
         return users.stream()
                 .map(UserMapper::toResponseDTO).toList();
@@ -53,8 +54,8 @@ public class UserService {
         if(optionalUser.isPresent()){
             User user = optionalUser.get();
 
-            user.setRoles(userRequestDTO.role());
-            user.setUsername(userRequestDTO.name());
+            user.setRoles(Set.of(userRequestDTO.role()));
+            user.setUsername(userRequestDTO.username());
             user.setPassword((userRequestDTO.password()));
 
             User updatedUser = userRepository.save(user);

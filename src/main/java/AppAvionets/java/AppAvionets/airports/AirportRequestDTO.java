@@ -4,8 +4,8 @@ import jakarta.validation.constraints.*;
 
 public record AirportRequestDTO(
 
-    @NotNull(message = "The name cannot be null")
-    @NotEmpty(message = "The name cannot be empty")
+    @NotNull(message = "The username cannot be null")
+    @NotEmpty(message = "The username cannot be empty")
     String name,
 
     @NotNull(message = "The city cannot be null")
