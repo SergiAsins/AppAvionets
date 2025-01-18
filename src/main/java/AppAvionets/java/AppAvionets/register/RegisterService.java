@@ -4,7 +4,9 @@ import java.util.Map;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.HashMap;
+import java.util.Set;
 
+import AppAvionets.java.AppAvionets.roles.Role;
 import AppAvionets.java.AppAvionets.roles.RoleService;
 import AppAvionets.java.AppAvionets.users.User;
 import AppAvionets.java.AppAvionets.users.UserRequestDTO;
@@ -28,16 +30,18 @@ public Map<String, String> save(UserRequestDTO userRequestDTO){
 
     //Decode the base64 password
     String passwordDecoded = new String(Base64.getDecoder().decode(userRequestDTO.password()));
-
     //Encrypt the password
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    String passwordEncoded = encoder.encode(passwordDecoded);
+    String passwordEncoded = encoder.encode(userRequestDTO.password());
+
+    //get role from the DB
+    Role role = roleService.getById(userRequestDTO.role().getId());
 
     //Create User Entity
     User user = new User();
     user.setUsername(userRequestDTO.username());
     user.setPassword(passwordEncoded);
-    user.setRoles(roleService.assignDefaultRole());
+    user.setRoles(Set.of(role));
 
     //Save User entity to the repository
     userRepository.save(user);
@@ -45,7 +49,6 @@ public Map<String, String> save(UserRequestDTO userRequestDTO){
     //Prepare response
     Map<String, String> response = new HashMap<>();
     response.put("message", "User registered successfully");
-
     return response;
     }
 }
