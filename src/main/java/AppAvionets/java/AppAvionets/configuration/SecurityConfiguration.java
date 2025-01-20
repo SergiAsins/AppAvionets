@@ -84,7 +84,7 @@ public class SecurityConfiguration{
 
 
     //add Role_ADMIN and Role_USER initially
-    @Bean
+    /*@Bean
     CommandLineRunner initRoles(RoleRepository roleRepository) {
         return args -> {
             Role userRole = new Role("ROLE_USER");
@@ -99,5 +99,5 @@ public class SecurityConfiguration{
                 roleRepository.save(adminRole);
             }
         };
-    }
+    }*/
 }
