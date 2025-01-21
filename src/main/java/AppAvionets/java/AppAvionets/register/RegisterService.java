@@ -1,9 +1,9 @@
 package AppAvionets.java.AppAvionets.register;
 
-import java.util.Map;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import AppAvionets.java.AppAvionets.roles.Role;
@@ -28,13 +28,19 @@ public class RegisterService {
 
 public Map<String, String> save(UserRequestDTO userRequestDTO){
 
+    System.out.println("-------------" + userRequestDTO.password());
     //Decode the base64 password
-    String passwordDecoded = new String(Base64.getDecoder().decode(userRequestDTO.password()));
-    //Encrypt the password
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    String passwordEncoded = encoder.encode(userRequestDTO.password());
+    Decoder decoder = Base64.getDecoder();
+    byte[] decodedBytes = decoder.decode(userRequestDTO.password());
+    String passwordDecoded = new String(decodedBytes);
 
-    //get role from the DB
+    System.out.println("<------------ " + passwordDecoded);
+
+    //encrypt the password
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String passwordEncoded = encoder.encode(passwordDecoded);
+
+    //retrieve the role from the DB
     Role role = roleService.getById(userRequestDTO.role().getId());
 
     //Create User Entity
