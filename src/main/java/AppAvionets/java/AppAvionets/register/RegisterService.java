@@ -1,11 +1,9 @@
 package AppAvionets.java.AppAvionets.register;
 
-import java.util.Base64;
+import java.util.*;
 import java.util.Base64.Decoder;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
+import AppAvionets.java.AppAvionets.exceptions.AirCompanyAlreadyExistsException;
 import AppAvionets.java.AppAvionets.roles.Role;
 import AppAvionets.java.AppAvionets.roles.RoleService;
 import AppAvionets.java.AppAvionets.users.User;
@@ -28,6 +26,11 @@ public class RegisterService {
 
 public Map<String, String> save(UserRequestDTO userRequestDTO){
 
+    Optional<User> existingUser = userRepository.findByUsername(userRequestDTO.username());
+    if(existingUser.isPresent()){
+        throw new AirCompanyAlreadyExistsException("The user with this name already exist.");
+    }
+
     System.out.println("-------------" + userRequestDTO.password());
     //Decode the base64 password
     Decoder decoder = Base64.getDecoder();
@@ -38,7 +41,7 @@ public Map<String, String> save(UserRequestDTO userRequestDTO){
 
     //encrypt the password
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String passwordEncoded = encoder.encode(passwordDecoded);
+    String passwordEncoded = encoder.encode(passwordDecoded);
 
     //retrieve the role from the DB
     Role role = roleService.getById(userRequestDTO.role().getId());
