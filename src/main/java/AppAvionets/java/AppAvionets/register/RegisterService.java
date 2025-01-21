@@ -13,6 +13,8 @@ import AppAvionets.java.AppAvionets.users.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.RoleNotFoundException;
+
 @Service
 public class RegisterService {
 
@@ -44,16 +46,20 @@ public Map<String, String> save(UserRequestDTO userRequestDTO){
     String passwordEncoded = encoder.encode(passwordDecoded);
 
     //retrieve the role from the DB
-    Role role = roleService.getById(userRequestDTO.role().getId());
+    //Role role = roleService.getById(userRequestDTO.role().getId());
 
     //Create User Entity
-    User user = new User();
-    user.setUsername(userRequestDTO.username());
-    user.setPassword(passwordEncoded);
-    user.setRoles(Set.of(role));
+    User newUser = new User(userRequestDTO.username(), passwordEncoded);
+
+    //manage RoleNotFoundException
+    try {
+        newUser.setRoles(roleService.assignDefaultRole(newUser.getId()));
+    } catch (RoleNotFoundException e){
+        throw new RuntimeException("Default role could not be assigned. Please contact support.", e);
+    };
 
     //Save User entity to the repository
-    userRepository.save(user);
+    userRepository.save(newUser);
 
     //Prepare response
     Map<String, String> response = new HashMap<>();

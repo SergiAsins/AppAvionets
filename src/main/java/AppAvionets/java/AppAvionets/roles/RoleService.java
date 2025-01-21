@@ -2,30 +2,27 @@ package AppAvionets.java.AppAvionets.roles;
 
 import org.springframework.stereotype.Service;
 import javax.management.relation.RoleNotFoundException;
-import java.util.HashSet;
-import java.util.NoSuchElementException;
+import java.util.Collections;
 import java.util.Set;
 
 @Service
 public class RoleService {
-    private final RoleRepository repository;
+    private final RoleRepository roleRepository;
 
-    public RoleService(RoleRepository repository) {
-        this.repository = repository;
+    public RoleService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
-    public Role getById(Long id){
-        //Manage RoleNotFoundException explicitly
-        return repository.findById(id).orElseThrow(() ->
-                new NoSuchElementException("Role with ID" + id + "not found"));
+    public Role getById(Long id) throws RoleNotFoundException{
+        Role role = roleRepository.findById(id).orElseThrow(() -> new RoleNotFoundException("Role not found."));
+        return role;
     }
 
-    public Set<Role> assignDefaultRole(){
-        Role defaultRole = this.getById(1L);
+    public Set<Role> assignDefaultRole(Long userId) throws RoleNotFoundException{
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(defaultRole);
+        Role defaultRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RoleNotFoundException("Default role (Role_USER) not found."));
 
-        return roles;
+        return Collections.singleton(defaultRole);
     }
 }
