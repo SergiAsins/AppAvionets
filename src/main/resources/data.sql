@@ -1,3 +1,8 @@
+-- Erased data from tables and restart id identities:
+TRUNCATE TABLE roles_users RESTART IDENTITY CASCADE;
+TRUNCATE TABLE roles RESTART IDENTITY CASCADE;
+TRUNCATE TABLE users RESTART IDENTITY CASCADE;
+
 -- Restarts sequences
 ALTER SEQUENCE roles_id_role_seq RESTART WITH 1;
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
