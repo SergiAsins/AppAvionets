@@ -82,6 +82,7 @@ public class SecurityConfiguration{
                 // debug: Log the authorities
                 System.out.println("Authenticated User: " + authentication.getName());
                 System.out.println("User Authorities: " + authentication.getAuthorities());
+
             }
             chain.doFilter(request, response);  // Continue the filter chain
         }, UsernamePasswordAuthenticationFilter.class);
