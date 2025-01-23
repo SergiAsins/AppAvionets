@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import AppAvionets.java.AppAvionets.security.JpaUserDetailsService;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -72,10 +75,19 @@ public class SecurityConfiguration{
 
         http.headers(header -> header.frameOptions(frame -> frame.sameOrigin()));
 
+        //23.1.25: Amr
+        http.addFilterBefore((request, response, chain) -> {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null) {
+                // debug: Log the authorities
+                System.out.println("Authenticated User: " + authentication.getName());
+                System.out.println("User Authorities: " + authentication.getAuthorities());
+            }
+            chain.doFilter(request, response);  // Continue the filter chain
+        }, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
 
     @Bean
     PasswordEncoder passwordEncoder(){

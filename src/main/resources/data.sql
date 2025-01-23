@@ -2,6 +2,10 @@
 TRUNCATE TABLE roles_users RESTART IDENTITY CASCADE;
 TRUNCATE TABLE roles RESTART IDENTITY CASCADE;
 TRUNCATE TABLE users RESTART IDENTITY CASCADE;
+TRUNCATE TABLE airport RESTART IDENTITY CASCADE;
+TRUNCATE TABLE flight RESTART IDENTITY CASCADE;
+TRUNCATE TABLE reservation RESTART IDENTITY CASCADE;
+
 
 -- Restarts sequences
 ALTER SEQUENCE roles_id_role_seq RESTART WITH 1;
@@ -21,6 +25,5 @@ INSERT INTO users (username, password) VALUES ('Abdeljawel', '$2a$12$8LegtLQWe71
 /* Roles Users */
 INSERT INTO roles_users (role_id, user_id) VALUES (1, 1);
 INSERT INTO roles_users (role_id, user_id) VALUES (2, 2);
-
 
 

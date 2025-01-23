@@ -31,6 +31,16 @@ public class Profile {
     public Profile() {
     }
 
+    public Profile(String name, String phone, String email, String address, String picture, User user) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.picture = picture;
+        this.user = user;
+    }
+
+
     //getters&setters}
 
     public Long getId() {
@@ -57,11 +67,11 @@ public class Profile {
         return picture;
     }
 
-    /*public User getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    /*public void setUser(User user) {
         this.user = user;
     }*/
 
