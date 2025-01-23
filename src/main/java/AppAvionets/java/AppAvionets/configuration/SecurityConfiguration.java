@@ -60,7 +60,7 @@ public class SecurityConfiguration{
                                 .requestMatchers(endpoint + "/private").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, endpoint + "/flights").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, endpoint + "/airport").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, endpoint + "/airport").hasRole("ADMIN") //.hasAuthority
                                 .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, endpoint + "/reservations").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.GET, endpoint + "/flights").hasAnyRole("ADMIN")
@@ -82,22 +82,4 @@ public class SecurityConfiguration{
         return new BCryptPasswordEncoder();
     }
 
-
-    //add Role_ADMIN and Role_USER initially
-    /*@Bean
-    CommandLineRunner initRoles(RoleRepository roleRepository) {
-        return args -> {
-            Role userRole = new Role("ROLE_USER");
-            Role adminRole = new Role("ROLE_ADMIN");
-
-            if (!roleRepository.existsById(1L)) {
-                userRole.setId(1L);
-                roleRepository.save(userRole);
-            }
-            if (!roleRepository.existsById(2L)) {
-                adminRole.setId(2L);
-                roleRepository.save(adminRole);
-            }
-        };
-    }*/
 }
