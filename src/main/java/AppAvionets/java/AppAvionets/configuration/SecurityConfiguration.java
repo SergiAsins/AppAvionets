@@ -59,11 +59,11 @@ public class SecurityConfiguration{
                                 .requestMatchers(endpoint).permitAll()
                                 .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
                                 .requestMatchers(endpoint + "/login").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(endpoint + "/public").permitAll()
-                                .requestMatchers(endpoint + "/private").hasRole("ADMIN")
+                                //.requestMatchers(endpoint + "/public").permitAll()
+                                //.requestMatchers(endpoint + "/private").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, endpoint + "/flights").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, endpoint + "/airport").hasRole("ADMIN") //.hasAuthority
+                                .requestMatchers(HttpMethod.POST, endpoint + "/airports").hasRole("ADMIN") //.hasAuthority
                                 .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, endpoint + "/reservations").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.GET, endpoint + "/flights").hasAnyRole("ADMIN")
@@ -71,7 +71,7 @@ public class SecurityConfiguration{
                 .userDetailsService(jpaUserDetailService)
                 .httpBasic(withDefaults())
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
         http.headers(header -> header.frameOptions(frame -> frame.sameOrigin()));
 

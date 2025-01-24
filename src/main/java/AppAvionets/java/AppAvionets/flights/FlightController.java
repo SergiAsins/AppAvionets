@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/flights")
+@RequestMapping("/api/v1/flights")
 public class FlightController {
 
     private final FlightService flightService;
