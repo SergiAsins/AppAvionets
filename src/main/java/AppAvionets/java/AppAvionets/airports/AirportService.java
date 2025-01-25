@@ -36,7 +36,15 @@ public class AirportService {
         return AirportMapper.toResponseDto(airport);
     }
 
-    //findByNameIgnoreCaseContaining
+    public List<AirportResponseDTO> findByName(String name){
+        Optional<Airport> optionalAirport = airportRepository.findByName(name);
+
+        if(optionalAirport.isEmpty()){
+            throw new AirCompanyNotFoundException("There is no Airport with the name " + name);
+        }
+        return optionalAirport.stream()
+                .map(AirportMapper::toResponseDto).toList();
+    }
 
     public AirportResponseDTO updateAirportById(Long id, AirportRequestDTO airportRequestDTO){
         Optional<Airport> optionalAirport = airportRepository.findById(id);
