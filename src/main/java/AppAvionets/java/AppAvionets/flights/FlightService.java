@@ -109,4 +109,7 @@ public class FlightService {
         }
         throw new AirCompanyNotFoundException("The flight with the id" + id+ "does not exist");
     }
+
+    //public List<FlightResponseDTO> searchFlights(String )
+
 }

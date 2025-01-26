@@ -3,6 +3,9 @@ package AppAvionets.java.AppAvionets.flights;
 import AppAvionets.java.AppAvionets.airports.Airport;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 //import lombok.*;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -14,7 +17,12 @@ public class Flight {
     @Column(nullable = false)
     private Long idFlight;
 
+    @NotNull(message = "The flightNumber cannot be null")
+    @NotEmpty(message = "The flightNumber cannot be empty")
+    @Pattern(regexp = "^[A-Z]{2}\\d{3}$", message = "The flightNumber must be two uppercase letters followed by three digits")
     String flightNumber;
+
+    @NotNull(message = "The status cannot be null")
     Boolean status;
 
     @OneToOne
@@ -63,6 +71,11 @@ public class Flight {
         if (this.availableSeats == 0) {
             this.status = false;
         }
+    }
+
+    private static boolean isValidFlightNumber(String flightNumber) {
+        String pattern = "^([A-Z])(\\d{3})$";
+        return flightNumber.matches(pattern);
     }
 
     //getters and setters}
