@@ -1,5 +1,6 @@
-package AppAvionets.java.AppAvionets.exceptions;
+package AppAvionets.java.AppAvionets.exceptions.globalhandler;
 
+import AppAvionets.java.AppAvionets.exceptions.AirCompanyInvalidFormatException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,11 +31,11 @@ public class GlobalExceptionHandler {
     }
 
     // Manage any other exception
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGlobalException(Exception ex) {
         Map<String, String> response = new HashMap<>();
         response.put("error", "An unexpected error occurred");
         response.put("details", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 }

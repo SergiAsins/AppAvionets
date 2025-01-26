@@ -15,6 +15,7 @@ public class AirportService {
     }
 
     public AirportResponseDTO createAirport(AirportRequestDTO airportRequestDTO){
+
         Airport airport = AirportMapper.toEntity(airportRequestDTO);
         Airport savedAirport = airportRepository.save(airport);
         return AirportMapper.toResponseDto(savedAirport);
