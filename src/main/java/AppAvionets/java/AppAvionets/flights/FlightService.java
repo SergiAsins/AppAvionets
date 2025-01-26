@@ -2,6 +2,7 @@ package AppAvionets.java.AppAvionets.flights;
 
 import AppAvionets.java.AppAvionets.airports.Airport;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyAlreadyExistsException;
+import AppAvionets.java.AppAvionets.exceptions.AirCompanyInvalidFormatException;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
 import AppAvionets.java.AppAvionets.airports.AirportRepository;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,13 @@ public class FlightService {
     }
 
     public FlightResponseDTO createFlight(FlightRequestDTO flightRequestDTO){
+        if (!flightRequestDTO.flightNumber().matches("^[A-Z]{2}\\d{3}$")) {
+            throw new AirCompanyInvalidFormatException("The flightNumber must be two uppercase letters followed by three digits");
+        }
+
         Optional<Flight> existFlight = flightRepository.findByFlightNumberAndOrigin_id(flightRequestDTO.flightNumber(), flightRequestDTO.airportOriginId());
         if(existFlight.isPresent()){
-            throw  new AirCompanyAlreadyExistsException("There is already a flight with this username linked to this airport.");
+            throw new AirCompanyAlreadyExistsException("There is already a flight with this username linked to this airport.");
         }
 
         Optional<Airport> originAirport = airportRepository.findById(flightRequestDTO.airportOriginId());

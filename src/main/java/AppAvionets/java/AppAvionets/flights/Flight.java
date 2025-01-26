@@ -1,6 +1,7 @@
 package AppAvionets.java.AppAvionets.flights;
 
 import AppAvionets.java.AppAvionets.airports.Airport;
+import AppAvionets.java.AppAvionets.exceptions.AirCompanyInvalidFormatException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
@@ -71,11 +72,6 @@ public class Flight {
         if (this.availableSeats == 0) {
             this.status = false;
         }
-    }
-
-    private static boolean isValidFlightNumber(String flightNumber) {
-        String pattern = "^([A-Z])(\\d{3})$";
-        return flightNumber.matches(pattern);
     }
 
     //getters and setters}
