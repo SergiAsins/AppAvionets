@@ -33,22 +33,6 @@ class AirportServiceTest {
     @InjectMocks
     private AirportService airportService;
 
-    /*@Test
-    public void testCreateAirport_Success() throws AirCompanyAlreadyExistsException {
-        AirportRequestDTO airportRequestDTO = new AirportRequestDTO("Los Angeles Airport", "Los Angeles", "USA");
-
-        when(airportRepository.findByName(airportRequestDTO.name())).thenReturn(Optional.empty());
-
-        Airport savedAirport = new Airport(airportRequestDTO.name(), airportRequestDTO.city(), airportRequestDTO.country());
-        when(airportRepository.save(any(Airport.class))).thenReturn(savedAirport);
-
-        AirportResponseDTO airportResponseDTO = airportService.createAirport(airportRequestDTO);
-
-        assertEquals(airportResponseDTO.name(), airportRequestDTO.name());
-        assertEquals(airportResponseDTO.city(), airportRequestDTO.city());
-        assertEquals(airportResponseDTO.country(), airportRequestDTO.country());
-    }*/
-
 
     @Test
     public void testFindAllAirports(){

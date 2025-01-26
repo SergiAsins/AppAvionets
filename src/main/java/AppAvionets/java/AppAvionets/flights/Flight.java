@@ -30,7 +30,7 @@ public class Flight {
 
     @PrePersist
     @PreUpdate
-    private void validateFlightTimes() {
+    public void validateFlightTimes() {
         if (this.arrivalTime.before(this.departureTime)) {
             throw new IllegalStateException("Arrival time must be later than departure time.");
         }

@@ -23,8 +23,7 @@ class UserRepositoryTest {
         testEntityManager.persist(user);
     }
 
-    //bug3
-    //unitary test of UserRepository - method findById()
+
     @Test
     public void testFindUserByIdFound(){
         Optional<User> user = userRepository.findById(1L);
