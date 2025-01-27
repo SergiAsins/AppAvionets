@@ -27,4 +27,10 @@ INSERT INTO airport (city, code_airport, country, name) VALUES ('New York', 'JFK
 
 /* Flights */
 INSERT INTO flight (flight_number, status, origin_id, destination_id, departure_time, arrival_time, available_seats)
-VALUES ('AA012', true, 1, 2, '2026-01-25T16:30:00', '2026-01-26T14:00:00', 30);
+VALUES ('AA012', true, 1, 2, '2026-01-25T10:00:00', '2026-01-26T06:00:00', 30);
+INSERT INTO flight (flight_number, status, origin_id, destination_id, departure_time, arrival_time, available_seats)
+VALUES ('AA112', true, 1, 2, '2026-01-25T16:00:00', '2026-01-26T10:00:00', 30);
+INSERT INTO flight (flight_number, status, origin_id, destination_id, departure_time, arrival_time, available_seats)
+VALUES ('AA013', true, 1, 3, '2026-01-25T16:30:00', '2026-01-26T14:00:00', 30);
+INSERT INTO flight (flight_number, status, origin_id, destination_id, departure_time, arrival_time, available_seats)
+VALUES ('AA031', true, 3, 1, '2026-01-25T16:30:00', '2026-01-27T14:00:00', 30);

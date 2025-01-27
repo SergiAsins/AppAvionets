@@ -5,6 +5,7 @@ import AppAvionets.java.AppAvionets.exceptions.AirCompanyAlreadyExistsException;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyInvalidFormatException;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
 import AppAvionets.java.AppAvionets.airports.AirportRepository;
+import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -24,6 +25,9 @@ public class FlightService {
     }
 
     public FlightResponseDTO createFlight(FlightRequestDTO flightRequestDTO){
+        if(flightRequestDTO.airportOriginId() == flightRequestDTO.airportDestinationId()){
+            throw new AirCompanyErrorFlightException("Bro? A flight can not start and finish in the same place");
+        }
         if (!flightRequestDTO.flightNumber().matches("^[A-Z]{2}\\d{3}$")) {
             throw new AirCompanyInvalidFormatException("The flightNumber must be two uppercase letters followed by three digits");
         }

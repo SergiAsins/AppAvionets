@@ -27,11 +27,11 @@ public class Flight {
     @NotNull(message = "The status cannot be null")
     Boolean status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "origin_id")
     Airport origin;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "destination_id")
     Airport destination;
 

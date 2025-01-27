@@ -1,6 +1,7 @@
 package AppAvionets.java.AppAvionets.exceptions.globalhandler;
 
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyInvalidFormatException;
+import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,6 +27,14 @@ public class GlobalExceptionHandler {
     //Manage InvalidFlightNumber
     @ExceptionHandler(AirCompanyInvalidFormatException.class)
     public ResponseEntity<Map<String, String>> handleInvalidFlightNumber(AirCompanyInvalidFormatException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    //Manage ErrorFlights
+    @ExceptionHandler(AirCompanyErrorFlightException.class)
+    public ResponseEntity<Map<String, String>> handleErrorFlightCreation(AirCompanyErrorFlightException ex){
         Map<String, String> response = new HashMap<>();
         response.put("error", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
