@@ -5,6 +5,7 @@ import AppAvionets.java.AppAvionets.users.User;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
 import AppAvionets.java.AppAvionets.users.UserRepository;
 import AppAvionets.java.AppAvionets.flights.FlightRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -27,13 +28,13 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final FlightRepository flightRepository;
 
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
     public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository, FlightRepository flightRepository) {
         this.reservationRepository = reservationRepository;
         this.userRepository = userRepository;
         this.flightRepository = flightRepository;
     }
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public ReservationResponseDTO createReservation(ReservationRequestDTO reservationRequestDTO) {
         Optional<User> user = userRepository.findById(reservationRequestDTO.userId());
@@ -63,7 +64,7 @@ public class ReservationService {
         flight.reserveSeats(reservationRequestDTO.seats());
         flightRepository.save(flight);
 
-        // Schedule a task to revert the status after 10 seconds
+        // Schedule a task to revert the status after 15 sec
         scheduler.schedule(() -> {
             flight.setStatus(flight.getAvailableSeats() > 0);
             flightRepository.save(flight);

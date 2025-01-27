@@ -17,8 +17,8 @@ public class Reservation {
     @Column(nullable = false, updatable = false)
     private Timestamp ticketTime;
 
-    @OneToOne
-    @JoinColumn(name = "IdFlight")
+    @ManyToOne
+    @JoinColumn(name = "id_flight", nullable = false)
     private Flight flight;
 
     @OneToOne

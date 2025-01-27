@@ -23,22 +23,22 @@ public class Flight {
     @NotEmpty(message = "The flightNumber cannot be empty")
     @Pattern(regexp = "^[A-Z]{2}\\d{3}$", message = "The flightNumber must be two uppercase letters followed by three digits")
     @Column(name = "flight_number", nullable = false)
-    String flightNumber;
+    private String flightNumber;
 
     @NotNull(message = "The status cannot be null")
-    Boolean status;
+    private Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "origin_id")
-    Airport origin;
+    private Airport origin;
 
     @ManyToOne
     @JoinColumn(name = "destination_id")
-    Airport destination;
+    private Airport destination;
 
     @Future(message = "A Flight must be planned in advance.")
     @Column(name = "departure_time", nullable = false)
-    Timestamp departureTime;
+    private Timestamp departureTime;
 
     @Column(name = "arrival_time", nullable = false)
     @PrePersist
