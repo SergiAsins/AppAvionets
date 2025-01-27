@@ -24,3 +24,7 @@ VALUES (2, 'Abdeljawel Hassan VI', '111222333', 'abdel@abdjaji.sq', 'Av Ausias M
 INSERT INTO airport (city, code_airport, country, name) VALUES ('Delhi', 'DEL', 'India', 'Indira Gandhi International Airport');
 INSERT INTO airport (city, code_airport, country, name) VALUES ('Paris', 'CDG', 'France', 'Charles de Gaulle Airport');
 INSERT INTO airport (city, code_airport, country, name) VALUES ('New York', 'JFK', 'United States', 'John F. Kennedy International Airport');
+
+/* Flights */
+INSERT INTO flight (flight_number, status, origin_id, destination_id, departure_time, arrival_time, available_seats)
+VALUES ('AA012', true, 1, 2, '2026-01-25T16:30:00', '2026-01-26T14:00:00', 30);

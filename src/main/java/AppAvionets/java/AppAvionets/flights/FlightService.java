@@ -7,6 +7,7 @@ import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
 import AppAvionets.java.AppAvionets.airports.AirportRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -115,6 +116,20 @@ public class FlightService {
         throw new AirCompanyNotFoundException("The flight with the id" + id+ "does not exist");
     }
 
-    //public List<FlightResponseDTO> searchFlights()
+    public List<FlightResponseDTO> searchFlights(String originCodeAirport, String destinationCodeAirport, Timestamp date, Integer seats){
+        //Calculates the start and ending of the date:
+        Timestamp startOfTheDay = Timestamp.valueOf(date.toLocalDateTime().toLocalDate().atStartOfDay());
+        Timestamp endOfTheDay = Timestamp.valueOf(date.toLocalDateTime().toLocalDate().atTime(23, 59, 59));
+
+        //Search flights with these parameters
+        List<Flight> flights = flightRepository.findFlightsByCriteria(originCodeAirport, destinationCodeAirport, startOfTheDay, endOfTheDay, seats);
+
+        if(flights.isEmpty()) {
+            throw new AirCompanyNotFoundException("No flights available for your actual search. Please try again.");
+        }
+            return flights.stream()
+                    .map(FlightMapper::toResponseDTO)
+                    .toList();
+    }
 
 }

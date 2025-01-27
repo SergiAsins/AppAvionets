@@ -21,6 +21,7 @@ public class Flight {
     @NotNull(message = "The flightNumber cannot be null")
     @NotEmpty(message = "The flightNumber cannot be empty")
     @Pattern(regexp = "^[A-Z]{2}\\d{3}$", message = "The flightNumber must be two uppercase letters followed by three digits")
+    @Column(name = "flight_number", nullable = false)
     String flightNumber;
 
     @NotNull(message = "The status cannot be null")
@@ -35,8 +36,10 @@ public class Flight {
     Airport destination;
 
     @Future(message = "A Flight must be planned in advance.")
+    @Column(name = "departure_time", nullable = false)
     Timestamp departureTime;
 
+    @Column(name = "arrival_time", nullable = false)
     @PrePersist
     @PreUpdate
     public void validateFlightTimes() {
@@ -46,6 +49,7 @@ public class Flight {
     }
     Timestamp arrivalTime;
 
+    @Column(name = "available_seats", nullable = false)
     Integer availableSeats;
 
     public Flight() {

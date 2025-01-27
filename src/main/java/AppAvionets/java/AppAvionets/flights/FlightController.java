@@ -1,10 +1,12 @@
 package AppAvionets.java.AppAvionets.flights;
 
 import jakarta.validation.Valid;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,10 +26,30 @@ public class FlightController {
         return new ResponseEntity<>(allFlights, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/by-id/{id}")
     public ResponseEntity<FlightResponseDTO> getFLightById(@PathVariable Long id){
         FlightResponseDTO flightResponseDTO = flightService.showFlightById(id);
         return new ResponseEntity<>(flightResponseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<FlightResponseDTO>> searchFlights(
+            @RequestParam String originCodeAirport,
+            @RequestParam String destinationCodeAirport,
+            @RequestParam String date,
+            @RequestParam Integer seats){
+
+        // convert the date to a TimeStamp
+        Timestamp timestamp;
+        try {
+            String formattedDate = date.replace("T", " ").split("\\.")[0];
+            timestamp = Timestamp.valueOf(formattedDate);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid date format. Use 'YYYY-MM-DDTHH:mm:ss' (e.g., 2026-01-25T16:30:00)");
+        }
+
+        List <FlightResponseDTO> flights = flightService.searchFlights(originCodeAirport, destinationCodeAirport, timestamp, seats);
+        return new ResponseEntity<>(flights, HttpStatus.OK);
     }
 
     @PostMapping
