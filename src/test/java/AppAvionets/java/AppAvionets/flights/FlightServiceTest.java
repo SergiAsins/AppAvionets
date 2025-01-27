@@ -34,8 +34,8 @@ class FlightServiceTest {
     @Test // Unit test
     void testReserveSeats_Success() {
         Flight flight = new Flight("FL123", true,
-                new Airport("Hartsfield–Jackson Atlanta International Airport", "Atlanta", "United States"),
-                new Airport("Dubai International Airport", "Dubai", "United Arab Emirates"),
+                new Airport("JDC", "Hartsfield–Jackson Atlanta International Airport", "Atlanta", "United States"),
+                new Airport("UAE", "Dubai International Airport", "Dubai", "United Arab Emirates"),
                 Timestamp.valueOf("2025-01-30 10:00:00"), Timestamp.valueOf("2025-01-30 14:00:00"), 100);
 
         flight.reserveSeats(10);
@@ -47,8 +47,8 @@ class FlightServiceTest {
     @Test // Unit test
     void testValidateFlightTimes_InvalidTimes() {
         Flight flight = new Flight("AA123", true,
-                new Airport("Dallas Fort Worth International Airport", "Dallas", "United States"),
-                new Airport("Tokyo Haneda Airport", "Tokyo", "Japan"),
+                new Airport("DLL", "Dallas Fort Worth International Airport", "Dallas", "United States"),
+                new Airport("TKW", "Tokyo Haneda Airport", "Tokyo", "Japan"),
                 Timestamp.valueOf("2025-01-30 14:00:00"), Timestamp.valueOf("2025-01-30 10:00:00"), 100);
 
         assertThrows(IllegalStateException.class, flight::validateFlightTimes);
@@ -59,8 +59,8 @@ class FlightServiceTest {
         FlightRequestDTO flightRequestDTO = new FlightRequestDTO("FL123", true, 1L, 2L,
                 Timestamp.valueOf("2025-01-30 10:00:00"), Timestamp.valueOf("2025-01-30 14:00:00"), 100);
 
-        when(airportRepository.findById(1L)).thenReturn(Optional.of(new Airport("Istanbul Airport", "Istanbul", "Turkey")));
-        when(airportRepository.findById(2L)).thenReturn(Optional.of(new Airport("Los Angeles International Airport", "LA", "USA")));
+        when(airportRepository.findById(1L)).thenReturn(Optional.of(new Airport("IST", "Istanbul Airport", "Istanbul", "Turkey")));
+        when(airportRepository.findById(2L)).thenReturn(Optional.of(new Airport("LAA", "Los Angeles International Airport", "LA", "USA")));
         when(flightRepository.save(any(Flight.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         FlightResponseDTO flightResponseDTO = flightService.createFlight(flightRequestDTO);
@@ -74,15 +74,15 @@ class FlightServiceTest {
     void testGetAllFlights() {
         List<FlightResponseDTO> flights = Arrays.asList(
                 new FlightResponseDTO(1L, "FL123", true,
-                        new AirportResponseDTO(1L, "Istanbul Airport", "Istanbul", "Turkey"),
-                        new AirportResponseDTO(2L, "Los Angeles International Airport", "LA", "USA"),
+                        new AirportResponseDTO(1L, "IST", "Istanbul Airport", "Istanbul", "Turkey"),
+                        new AirportResponseDTO(2L, "LAA","Los Angeles International Airport", "LA", "USA"),
                         Timestamp.valueOf("2025-01-24 16:30:00"), Timestamp.valueOf("2025-01-30 14:00:00"), 100)
         );
 
         when(flightRepository.findAll()).thenReturn(Arrays.asList(
                 new Flight("FL123", true,
-                        new Airport("Istanbul Airport", "Istanbul", "Turkey"),
-                        new Airport("Los Angeles International Airport", "LA", "USA"),
+                        new Airport("IST", "Istanbul Airport", "Istanbul", "Turkey"),
+                        new Airport("LAA", "Los Angeles International Airport", "LA", "USA"),
                         Timestamp.valueOf("2025-01-24 16:30:00"), Timestamp.valueOf("2025-01-30 14:00:00"), 100)
         ));
 

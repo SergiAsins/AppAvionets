@@ -38,8 +38,8 @@ class AirportServiceTest {
     public void testFindAllAirports(){
 
         List<Airport> airports = Arrays.asList(
-                new Airport("Los Angeles Airport", "Los Angeles", "USA"),
-                new Airport("Wasabi Airport", "Tokyo", "Japan")
+                new Airport("LAA", "Los Angeles Airport", "Los Angeles", "USA"),
+                new Airport("WTJ", "Wasabi Airport", "Tokyo", "Japan")
         );
         when(airportRepository.findAll()).thenReturn(airports);
 
@@ -54,7 +54,7 @@ class AirportServiceTest {
     public void testFindAirportById_Success(){
 
         Long airportId = 1L;
-        Airport airport = new Airport("Los Angeles Airport", "Los Angeles", "USA");
+        Airport airport = new Airport("LAA", "Los Angeles Airport", "Los Angeles", "USA");
         when(airportRepository.findById(airportId)).thenReturn(Optional.of(airport));
 
         AirportResponseDTO airportResponseDTO = airportService.findById(airportId);
@@ -67,7 +67,7 @@ class AirportServiceTest {
     public void testFindAirportByName_Success(){
 
         String airportName = "Los Angeles Airport";
-        Airport airport = new Airport("Los Angeles Airport", "Los Angeles", "USA");
+        Airport airport = new Airport("LAA","Los Angeles Airport", "Los Angeles", "USA");
         when(airportRepository.findByName(airportName)).thenReturn(Optional.of(airport));
 
         List<AirportResponseDTO> listResponsesDTOs = airportService.findByName(airportName);

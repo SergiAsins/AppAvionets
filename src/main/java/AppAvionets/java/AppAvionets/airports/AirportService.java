@@ -1,5 +1,6 @@
 package AppAvionets.java.AppAvionets.airports;
 
+import AppAvionets.java.AppAvionets.exceptions.AirCompanyAlreadyExistsException;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,9 @@ public class AirportService {
     }
 
     public AirportResponseDTO createAirport(AirportRequestDTO airportRequestDTO){
-
+        if (airportRepository.findByCodeAirport(airportRequestDTO.codeAirport()).isPresent()) {
+            throw new AirCompanyAlreadyExistsException("An airport with this Code already exists.");
+        }
         Airport airport = AirportMapper.toEntity(airportRequestDTO);
         Airport savedAirport = airportRepository.save(airport);
         return AirportMapper.toResponseDto(savedAirport);
@@ -37,6 +40,16 @@ public class AirportService {
         return AirportMapper.toResponseDto(airport);
     }
 
+    public AirportResponseDTO findByCodeAirport(String codeAirport){
+        Optional<Airport> optionalAirport = airportRepository.findByCodeAirport(codeAirport);
+        if(optionalAirport.isEmpty()){
+            throw new AirCompanyNotFoundException("The Airport with the codeAirport" + codeAirport + "does not exist.");
+        }
+
+        Airport airport = optionalAirport.get();
+        return AirportMapper.toResponseDto(airport);
+    }
+
     public List<AirportResponseDTO> findByName(String name){
         Optional<Airport> optionalAirport = airportRepository.findByName(name);
 
@@ -50,9 +63,14 @@ public class AirportService {
     public AirportResponseDTO updateAirportById(Long id, AirportRequestDTO airportRequestDTO){
         Optional<Airport> optionalAirport = airportRepository.findById(id);
 
+        if (airportRepository.findByCodeAirport(airportRequestDTO.codeAirport()).isPresent()) {
+            throw new AirCompanyAlreadyExistsException("An airport with this Code already exists.");
+        }
+
         if(optionalAirport.isPresent()){
             Airport airport = optionalAirport.get();
 
+            airport.setCodeAirport(airport.getCodeAirport());
             airport.setName(airportRequestDTO.name());
             airport.setCity(airportRequestDTO.city());
             airport.setCountry(airportRequestDTO.country());

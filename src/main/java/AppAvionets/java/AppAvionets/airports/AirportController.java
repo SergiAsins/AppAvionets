@@ -29,13 +29,19 @@ public class AirportController {
         return new ResponseEntity<>(airports, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/by-code/{codeAirport}")
+    public ResponseEntity<AirportResponseDTO> getAirportByCode(@PathVariable("codeAirport") String codeAirport){
+        AirportResponseDTO airportResponseDTO = airportService.findByCodeAirport(codeAirport);
+        return new ResponseEntity<>(airportResponseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/by-id/{id}")
     public ResponseEntity<AirportResponseDTO> getAirportById(@PathVariable Long id){
         AirportResponseDTO airportResponseDTO = airportService.findById(id);
         return new ResponseEntity<>(airportResponseDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/by-id/{id}")
     public ResponseEntity<AirportResponseDTO> updateAirport(@PathVariable Long id, @RequestBody @Valid AirportRequestDTO airportRequestDTO){
         AirportResponseDTO airportResponseDTO = airportService.updateAirportById(id, airportRequestDTO);
         return new ResponseEntity<>(airportResponseDTO, HttpStatus.OK);

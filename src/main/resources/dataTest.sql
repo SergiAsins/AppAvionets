@@ -20,4 +20,7 @@ VALUES (1, 'Mohammed Hassan V', '1233456789', 'mohammed@abdjaji.ma', 'Rue Zellak
 INSERT INTO profiles (user_id, name, phone, email, address, picture)
 VALUES (2, 'Abdeljawel Hassan VI', '111222333', 'abdel@abdjaji.sq', 'Av Ausias March', 'ProfilePicture2');
 
-
+/* Airports */
+INSERT INTO airport (city, code_airport, country, name) VALUES ('Delhi', 'DEL', 'India', 'Indira Gandhi International Airport');
+INSERT INTO airport (city, code_airport, country, name) VALUES ('Paris', 'CDG', 'France', 'Charles de Gaulle Airport');
+INSERT INTO airport (city, code_airport, country, name) VALUES ('New York', 'JFK', 'United States', 'John F. Kennedy International Airport');

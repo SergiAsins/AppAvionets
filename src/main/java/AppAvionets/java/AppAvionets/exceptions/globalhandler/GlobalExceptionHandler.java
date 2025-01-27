@@ -10,16 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    //Manage InvalidFlightNumber
-    @ExceptionHandler(AirCompanyInvalidFormatException.class)
-    public ResponseEntity<Map<String, String>> handleInvalidFlightNumber(AirCompanyInvalidFormatException ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 
     // Manage general validations (ex: @Valid failed)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -29,6 +22,17 @@ public class GlobalExceptionHandler {
                 errors.put(error.getField(), error.getDefaultMessage()));
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
+
+    //Manage InvalidFlightNumber
+    @ExceptionHandler(AirCompanyInvalidFormatException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidFlightNumber(AirCompanyInvalidFormatException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+
+
 
     // Manage any other exception
     /*@ExceptionHandler(Exception.class)
