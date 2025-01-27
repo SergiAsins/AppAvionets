@@ -7,13 +7,14 @@ import AppAvionets.java.AppAvionets.users.UserResponseDTO;
 import AppAvionets.java.AppAvionets.flights.Flight;
 import AppAvionets.java.AppAvionets.users.User;
 
+import java.sql.Timestamp;
+
 public class ReservationMapper {
     public static Reservation toEntity(ReservationRequestDTO reservationRequestDTO, User user, Flight flight){
         return new Reservation(
                 user,
                 flight,
-                reservationRequestDTO.seats(),
-                reservationRequestDTO.ticketTime()
+                reservationRequestDTO.seats()
         );
     }
 

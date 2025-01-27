@@ -2,6 +2,7 @@ package AppAvionets.java.AppAvionets.flights;
 
 import AppAvionets.java.AppAvionets.airports.Airport;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyInvalidFormatException;
+import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
@@ -73,6 +74,7 @@ public class Flight {
             throw new IllegalArgumentException("Invalid number of seats to reserve.");
         }
         this.availableSeats -= seats;
+
         if (this.availableSeats == 0) {
             this.status = false;
         }

@@ -10,13 +10,24 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.time.Instant;
+import java.util.concurrent.Executors;
+
+//handle status reset after a determinate time
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.Scheduled;
 
 @Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
     private final FlightRepository flightRepository;
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository, FlightRepository flightRepository) {
         this.reservationRepository = reservationRepository;
@@ -38,16 +49,25 @@ public class ReservationService {
 
         Flight flight = optionalFlight.get();
 
-        //Validates and updates availableSeats
         if(reservationRequestDTO.seats() > flight.getAvailableSeats()){
             throw new IllegalArgumentException("Not enough seats available for this Flight.");
         };
 
+        //Create and save Reservation
         Reservation reservation = ReservationMapper.toEntity(reservationRequestDTO, user.get(), optionalFlight.get());
+        // Save reservation and update flight status
         Reservation savedReservation = reservationRepository.save(reservation);
 
+        // Update flight status and schedule reset
+        flight.setStatus(false);
         flight.reserveSeats(reservationRequestDTO.seats());
         flightRepository.save(flight);
+
+        // Schedule a task to revert the status after 10 seconds
+        scheduler.schedule(() -> {
+            flight.setStatus(flight.getAvailableSeats() > 0);
+            flightRepository.save(flight);
+        }, 15, TimeUnit.SECONDS);
 
         return ReservationMapper.toResponseDto(savedReservation);
     }
@@ -91,7 +111,6 @@ public class ReservationService {
             throw new AirCompanyNotFoundException(("The Flight with the id" + reservationRequestDTO.flightId() + "does not exist."));
         }
 
-        reservation.setTicketTime(reservationRequestDTO.ticketTime());
         reservation.setSeats(reservationRequestDTO.seats());
 
         Reservation updatedReservation = reservationRepository.save(reservation);

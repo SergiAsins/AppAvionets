@@ -5,6 +5,7 @@ import AppAvionets.java.AppAvionets.users.User;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 public class Reservation {
@@ -13,27 +14,32 @@ public class Reservation {
     @Column(name = "id", nullable = false)
     private Long idReservation;
 
-    //current time when posts the reservation
+    @Column(nullable = false, updatable = false)
     private Timestamp ticketTime;
 
     @OneToOne
     @JoinColumn(name = "IdFlight")
-    Flight flight;
+    private Flight flight;
 
     @OneToOne
     @JoinColumn(name = "idUser")
-    User user;
+    private User user;
 
-    Integer seats;
+    private Integer seats;
 
     public Reservation() {
     }
 
-    public Reservation(User user, Flight flight, Integer seats, Timestamp ticketTime) {
+    public Reservation(User user, Flight flight, Integer seats) {
         this.user = user;
         this.flight = flight;
         this.seats = seats;
-        this.ticketTime = ticketTime;
+        this.ticketTime = Timestamp.from(Instant.now());
+    }
+
+    @PrePersist
+    protected void onCreate(){
+        this.ticketTime = Timestamp.from(Instant.now());
     }
 
     //getters and setters}
