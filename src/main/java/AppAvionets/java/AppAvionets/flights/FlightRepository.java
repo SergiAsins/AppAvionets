@@ -19,5 +19,4 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 
   Optional<Flight> findByFlightNumberAndOrigin_id(String flightNumber, Long airportDestinationId);
 
-
 }

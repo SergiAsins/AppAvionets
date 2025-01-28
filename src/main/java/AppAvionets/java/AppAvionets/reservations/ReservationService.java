@@ -112,6 +112,7 @@ public class ReservationService {
             throw new AirCompanyNotFoundException(("The Flight with the id" + reservationRequestDTO.flightId() + "does not exist."));
         }
 
+        reservation.setTicketTime(reservation.getTicketTime());
         reservation.setSeats(reservationRequestDTO.seats());
 
         Reservation updatedReservation = reservationRepository.save(reservation);

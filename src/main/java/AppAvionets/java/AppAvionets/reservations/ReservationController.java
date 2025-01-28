@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reservations")
+@RequestMapping("api/v1/reservations")
 public class ReservationController {
     private final ReservationService reservationService;
 
@@ -29,12 +29,12 @@ public class ReservationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReservationResponseDTO> getReservationById(Long id){
+    public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable Long id){
         ReservationResponseDTO reservationResponseDTO = reservationService.findById(id);
         return new ResponseEntity<>(reservationResponseDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/next/{userId}")
+    /*@GetMapping("/next/{userId}")
     public ResponseEntity<List<ReservationResponseDTO>> getFutureReservationsByUserId(@RequestParam Long userId){
         List<ReservationResponseDTO> reservationList = reservationService.findFutureReservations(userId);
         return new ResponseEntity<>(reservationList, HttpStatus.OK);
@@ -44,10 +44,10 @@ public class ReservationController {
     public ResponseEntity<List<ReservationResponseDTO>> getPastReservationsByUserId(@RequestParam Long userId){
         List<ReservationResponseDTO> reservationList = reservationService.findPastReservations(userId);
         return new ResponseEntity<>(reservationList, HttpStatus.OK);
-    }
+    }*/
 
     @PutMapping("/{id}")
-    public ResponseEntity<ReservationResponseDTO> updateReservationById(@RequestParam Long id, @RequestBody @Valid ReservationRequestDTO reservationRequestDTO){
+    public ResponseEntity<ReservationResponseDTO> updateReservationById(@PathVariable Long id, @RequestBody @Valid ReservationRequestDTO reservationRequestDTO){
         ReservationResponseDTO reservationResponseDTO = reservationService.updateReservationById(id, reservationRequestDTO);
         return new ResponseEntity<>(reservationResponseDTO, HttpStatus.OK);
     }
