@@ -1,9 +1,11 @@
 package AppAvionets.java.AppAvionets.profiles;
 
-import org.springframework.stereotype.Service;
+import AppAvionets.java.AppAvionets.exceptions.users.AirCompanyUserNotFoundException;
 import AppAvionets.java.AppAvionets.users.User;
+import AppAvionets.java.AppAvionets.users.UserRepository;
+import org.springframework.stereotype.Service;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyAlreadyExistsException;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyAlreadyExistsException;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,17 +14,24 @@ import java.util.Optional;
 public class ProfileServices {
 
     private final ProfileRepository profileRepository;
+    private final UserRepository userRepository;
 
-    public ProfileServices(ProfileRepository profileRepository) {
+    public ProfileServices(ProfileRepository profileRepository, UserRepository userRepository) {
         this.profileRepository = profileRepository;
+        this.userRepository = userRepository;
     }
 
-    public Object createProfile(ProfileRequestDTO profileRequestDTO, User user) throws AirCompanyAlreadyExistsException {
+    public Object createProfile(ProfileRequestDTO profileRequestDTO) throws AirCompanyAlreadyExistsException, AirCompanyUserNotFoundException {
         Optional<Profile> existsProfile = profileRepository.findByEmail(profileRequestDTO.email());
         if (existsProfile.isPresent())
             throw new AirCompanyAlreadyExistsException("Profile already exists with this email.");
 
-        Profile profile = ProfileMapper.toEntity(profileRequestDTO, user);
+        Optional<User> userOptional = userRepository.findById(profileRequestDTO.userId());
+        if (userOptional.isEmpty()) {
+            throw new AirCompanyUserNotFoundException("User not found with id " + profileRequestDTO.userId());
+        }
+
+        Profile profile = ProfileMapper.toEntity(profileRequestDTO, userOptional.get());
         Profile savedProfile = profileRepository.save(profile);
         return ProfileMapper.toResponse(savedProfile);
     }
@@ -55,5 +64,6 @@ public class ProfileServices {
                 .map(ProfileMapper::toResponse)
                 .toList();
     }
+
 }
 

@@ -9,8 +9,8 @@ public record ProfileRequestDTO(
     String name,
 
     @NotBlank
-    @Size(min = 9, max = 9, message = "Phone number must contain 9 numbers. Remember to add you country phone code")
-    @Pattern(regexp = "^\\d{9}$", message = "Phone number must contain 9 numbers. Remember to add you country phone code")
+    @Size(min = 9, max = 9, message = "Phone number must contain 9 numbers.")
+    @Pattern(regexp = "^\\d{9}$", message = "Phone number must contain 9 numbers.")
     String phone,
 
     @NotNull

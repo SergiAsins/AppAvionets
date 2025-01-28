@@ -1,6 +1,6 @@
 package AppAvionets.java.AppAvionets.exceptions.globalhandler;
 
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyInvalidFormatException;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyInvalidFormatException;
 import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

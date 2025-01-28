@@ -1,8 +1,8 @@
 package AppAvionets.java.AppAvionets.flights;
 
 import AppAvionets.java.AppAvionets.airports.Airport;
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyAlreadyExistsException;
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyInvalidFormatException;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyAlreadyExistsException;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyInvalidFormatException;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
 import AppAvionets.java.AppAvionets.airports.AirportRepository;
 import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;

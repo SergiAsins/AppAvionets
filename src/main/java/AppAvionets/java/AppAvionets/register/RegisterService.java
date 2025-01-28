@@ -3,12 +3,10 @@ package AppAvionets.java.AppAvionets.register;
 import java.util.*;
 import java.util.Base64.Decoder;
 
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyAlreadyExistsException;
-import AppAvionets.java.AppAvionets.roles.Role;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyAlreadyExistsException;
 import AppAvionets.java.AppAvionets.roles.RoleService;
 import AppAvionets.java.AppAvionets.users.User;
 import AppAvionets.java.AppAvionets.users.UserRequestDTO;
-import AppAvionets.java.AppAvionets.users.UserResponseDTO;
 import AppAvionets.java.AppAvionets.users.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

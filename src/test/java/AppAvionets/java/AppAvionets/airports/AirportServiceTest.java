@@ -2,7 +2,6 @@ package AppAvionets.java.AppAvionets.airports;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,14 +9,13 @@ import org.mockito.Mock;
 
 
 import org.mockito.junit.jupiter.MockitoExtension;
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyAlreadyExistsException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 

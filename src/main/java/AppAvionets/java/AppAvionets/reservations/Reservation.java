@@ -21,7 +21,7 @@ public class Reservation {
     @JoinColumn(name = "id_flight", nullable = false)
     private Flight flight;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idUser")
     private User user;
 

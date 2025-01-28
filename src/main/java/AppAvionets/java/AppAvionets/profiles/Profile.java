@@ -25,7 +25,7 @@ public class Profile {
     private String picture;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = true) // referencedColumnName = "id_user"
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     public Profile() {
@@ -39,7 +39,6 @@ public class Profile {
         this.picture = picture;
         this.user = user;
     }
-
 
     //getters&setters}
 
@@ -67,35 +66,19 @@ public class Profile {
         return picture;
     }
 
-    public User getUser() {
-        return user;
-    }
+    public User getUser() {return user;}
 
-    /*public void setUser(User user) {
-        this.user = user;
-    }*/
+    public void setUser(User user) {this.user = user;}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {this.name = name;}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) {this.id = id;}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    public void setPhone(String phone) {this.phone = phone;}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) {this.email = email;}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    public void setAddress(String address) {this.address = address;}
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
+    public void setPicture(String picture) {this.picture = picture;}
 }

@@ -1,6 +1,6 @@
 package AppAvionets.java.AppAvionets.airports;
 
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyAlreadyExistsException;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyAlreadyExistsException;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
 import org.springframework.stereotype.Service;
 

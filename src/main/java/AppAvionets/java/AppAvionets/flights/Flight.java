@@ -1,8 +1,6 @@
 package AppAvionets.java.AppAvionets.flights;
 
 import AppAvionets.java.AppAvionets.airports.Airport;
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyInvalidFormatException;
-import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
