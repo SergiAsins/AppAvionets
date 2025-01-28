@@ -3,7 +3,7 @@ package AppAvionets.java.AppAvionets.flights;
 import AppAvionets.java.AppAvionets.airports.Airport;
 import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyAlreadyExistsException;
 import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyInvalidFormatException;
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyNotFoundException;
 import AppAvionets.java.AppAvionets.airports.AirportRepository;
 import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;
 import org.springframework.stereotype.Service;

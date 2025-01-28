@@ -1,4 +1,4 @@
-package AppAvionets.java.AppAvionets.exceptions;
+package AppAvionets.java.AppAvionets.exceptions.general;
 
 import AppAvionets.java.AppAvionets.exceptions.runtime.AirCompanyRuntimeException;
 

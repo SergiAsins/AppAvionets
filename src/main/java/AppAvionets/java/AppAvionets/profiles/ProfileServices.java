@@ -4,7 +4,7 @@ import AppAvionets.java.AppAvionets.exceptions.users.AirCompanyUserNotFoundExcep
 import AppAvionets.java.AppAvionets.users.User;
 import AppAvionets.java.AppAvionets.users.UserRepository;
 import org.springframework.stereotype.Service;
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyNotFoundException;
 import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyAlreadyExistsException;
 
 import java.util.List;

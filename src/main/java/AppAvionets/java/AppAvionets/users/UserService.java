@@ -1,6 +1,6 @@
 package AppAvionets.java.AppAvionets.users;
 
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

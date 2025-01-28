@@ -2,6 +2,7 @@ package AppAvionets.java.AppAvionets.exceptions.globalhandler;
 
 import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyInvalidFormatException;
 import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;
+import AppAvionets.java.AppAvionets.exceptions.reservations.AirCompanyReservationErrorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,6 +41,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    //Manage Error with Reservations
+    @ExceptionHandler(AirCompanyReservationErrorException.class)
+    public ResponseEntity<Map<String, String>>handleErrorReservationCreation(AirCompanyReservationErrorException ex){
+        Map<String, String> response = new HashMap<>();
+        response.put("error", ex.getMessage());
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
 
 

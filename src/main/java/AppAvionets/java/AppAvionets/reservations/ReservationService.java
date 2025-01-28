@@ -1,12 +1,13 @@
 package AppAvionets.java.AppAvionets.reservations;
 
 import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;
+import AppAvionets.java.AppAvionets.exceptions.reservations.AirCompanyReservationErrorException;
 import AppAvionets.java.AppAvionets.flights.Flight;
 import AppAvionets.java.AppAvionets.users.User;
-import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
+import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyNotFoundException;
 import AppAvionets.java.AppAvionets.users.UserRepository;
 import AppAvionets.java.AppAvionets.flights.FlightRepository;
-import jakarta.annotation.PostConstruct;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -15,13 +16,12 @@ import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.time.Instant;
 import java.util.concurrent.Executors;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
 //handle status reset after a determinate time
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.Scheduled;
+
 
 @Service
 public class ReservationService {
@@ -38,13 +38,19 @@ public class ReservationService {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public ReservationResponseDTO createReservation(ReservationRequestDTO reservationRequestDTO) {
-        Optional<User> user = userRepository.findById(reservationRequestDTO.userId());
-        Optional<Flight> optionalFlight = flightRepository.findById(reservationRequestDTO.flightId());
+        //get authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
-        if (user.isEmpty()) {
-            throw new AirCompanyNotFoundException("There is no User with this ID.");
+        //Search the authenticated user in the DB
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if(userOptional.isEmpty()){
+            throw new AirCompanyNotFoundException("Authenticated user not found in the database.");
         }
+        User user = userOptional.get();
 
+
+        Optional<Flight> optionalFlight = flightRepository.findById(reservationRequestDTO.flightId());
         if (optionalFlight.isEmpty()) {
             throw new AirCompanyNotFoundException("There is no Flight with this ID.");
         }
@@ -56,7 +62,7 @@ public class ReservationService {
         };
 
         //Create and save Reservation
-        Reservation reservation = ReservationMapper.toEntity(reservationRequestDTO, user.get(), optionalFlight.get());
+        Reservation reservation = ReservationMapper.toEntity(reservationRequestDTO, user, flight);
         // Save reservation and update flight status
         Reservation savedReservation = reservationRepository.save(reservation);
 
@@ -103,9 +109,20 @@ public class ReservationService {
         }
         Reservation reservation = optionalReservation.get();
 
-        Optional<User> optionalUser = userRepository.findById(reservationRequestDTO.userId());
+        //get authenticated user:
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        Optional<User> optionalUser = userRepository.findByUsername(username);
         if(optionalUser.isEmpty()){
-            throw new AirCompanyNotFoundException(("The User with the id" + reservationRequestDTO.userId() + "does not exist."));
+            throw new AirCompanyNotFoundException(("Authenticated user not found in the database."));
+        }
+
+        User authenticatedUser = optionalUser.get();
+
+        //verifies that the authenticated user is the owner of the Reservation:
+        if (!reservation.getUser().getId().equals(authenticatedUser.getId())) {
+            throw new AirCompanyReservationErrorException("You cannot update a reservation that does not belong to you.");
         }
 
         Optional<Flight> optionalFlight = flightRepository.findById(reservationRequestDTO.flightId());
@@ -115,7 +132,7 @@ public class ReservationService {
 
         Flight flight = optionalFlight.get();
         if (!reservation.getFlight().getIdFlight().equals(flight.getIdFlight())) {
-            throw new IllegalArgumentException("Cannot change the flight associated with an existing reservation.");
+            throw new AirCompanyErrorFlightException("Cannot change the flight associated with an existing reservation.");
         }
 
         //update the availableSeats in the flight
