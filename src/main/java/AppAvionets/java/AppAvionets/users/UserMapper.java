@@ -15,7 +15,6 @@ public class UserMapper {
         return new UserResponseDTO(
                 user.getId(),
                 user.getRoles(),
-                user.getUsername(),
-                user.getPassword());
+                user.getUsername());
     }
 }

@@ -1,6 +1,7 @@
 package AppAvionets.java.AppAvionets.profiles;
 
 import AppAvionets.java.AppAvionets.users.User;
+import AppAvionets.java.AppAvionets.users.UserMapper;
 import jakarta.validation.Valid;
 
 public class ProfileMapper {
@@ -22,7 +23,7 @@ public class ProfileMapper {
                 profile.getName(),
                 profile.getPhone(),
                 profile.getEmail(),
-                profile.getUser()
+                UserMapper.toResponseDTO(profile.getUser())
         );
     }
 }
