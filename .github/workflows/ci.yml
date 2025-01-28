@@ -1,4 +1,4 @@
-name: CI - AppAvionets (Dev Branch-IntelliJ)
+name: CI - AppAvionets (Dev Branch)
 
 on:
   push:
