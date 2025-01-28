@@ -34,7 +34,7 @@ public class ReservationController {
         return new ResponseEntity<>(reservationResponseDTO, HttpStatus.OK);
     }
 
-    /*@GetMapping("/next/{userId}")
+    @GetMapping("/next/{userId}")
     public ResponseEntity<List<ReservationResponseDTO>> getFutureReservationsByUserId(@RequestParam Long userId){
         List<ReservationResponseDTO> reservationList = reservationService.findFutureReservations(userId);
         return new ResponseEntity<>(reservationList, HttpStatus.OK);
@@ -44,7 +44,7 @@ public class ReservationController {
     public ResponseEntity<List<ReservationResponseDTO>> getPastReservationsByUserId(@RequestParam Long userId){
         List<ReservationResponseDTO> reservationList = reservationService.findPastReservations(userId);
         return new ResponseEntity<>(reservationList, HttpStatus.OK);
-    }*/
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<ReservationResponseDTO> updateReservationById(@PathVariable Long id, @RequestBody @Valid ReservationRequestDTO reservationRequestDTO){

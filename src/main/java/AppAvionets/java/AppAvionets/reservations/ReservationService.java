@@ -1,5 +1,6 @@
 package AppAvionets.java.AppAvionets.reservations;
 
+import AppAvionets.java.AppAvionets.exceptions.flights.AirCompanyErrorFlightException;
 import AppAvionets.java.AppAvionets.flights.Flight;
 import AppAvionets.java.AppAvionets.users.User;
 import AppAvionets.java.AppAvionets.exceptions.AirCompanyNotFoundException;
@@ -112,9 +113,18 @@ public class ReservationService {
             throw new AirCompanyNotFoundException(("The Flight with the id" + reservationRequestDTO.flightId() + "does not exist."));
         }
 
-        reservation.setTicketTime(reservation.getTicketTime());
-        reservation.setSeats(reservationRequestDTO.seats());
+        Flight flight = optionalFlight.get();
+        if (!reservation.getFlight().getIdFlight().equals(flight.getIdFlight())) {
+            throw new IllegalArgumentException("Cannot change the flight associated with an existing reservation.");
+        }
 
+        //update the availableSeats in the flight
+        updateFlightAvailableSeats(reservation, reservationRequestDTO.seats());
+
+        // updates the reservation
+        reservation.setSeats(reservationRequestDTO.seats());
+        reservation.setTicketTime(reservation.getTicketTime());
+        reservation.setUser(optionalUser.get());
         Reservation updatedReservation = reservationRepository.save(reservation);
 
         return ReservationMapper.toResponseDto(updatedReservation);
@@ -138,5 +148,29 @@ public class ReservationService {
         Timestamp actualDateTime = new Timestamp(System.currentTimeMillis());
         List<Reservation> reservations = reservationRepository.findPastReservations(userId, actualDateTime);
         return reservations.stream().map(ReservationMapper::toResponseDto).collect(Collectors.toList());
+    }
+
+    public void updateFlightAvailableSeats(Reservation reservation, int newSeats){
+        Flight flight = reservation.getFlight();
+
+        //adjusts the number of availableSeats in the flight:
+        int previousSeats = reservation.getSeats();
+        int seatDifference = newSeats - previousSeats;
+
+        if (flight.getAvailableSeats() - seatDifference < 0) {
+            throw new AirCompanyErrorFlightException("Not enough available seats to update the reservation.");
+        }
+
+        flight.setAvailableSeats(flight.getAvailableSeats() - seatDifference);
+
+        //temporally changes the flight status into false
+        flight.setStatus(false);
+        flightRepository.save(flight);
+
+        //restores the flight status after 15sec:
+        scheduler.schedule(() -> {
+            flight.setStatus(flight.getAvailableSeats() > 0);
+            flightRepository.save(flight);
+        }, 15, TimeUnit.SECONDS);
     }
 }
