@@ -14,4 +14,6 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
   Optional<Profile> findByEmail(@NotNull @NotEmpty @Email(message = "The email must be in a correct electronic mal address format.")String email);
 
   List <Profile> findByEmailIgnoreCaseContaining(String email);
+
+  Optional<Profile> findByUserId(Long userId);
 }

@@ -9,9 +9,11 @@ public class ProfileMapper {
         return new Profile(
                 profileRequestDTO.name(),
                 profileRequestDTO.phone(),
-                profileRequestDTO.address(),
                 profileRequestDTO.email(),
-                profileRequestDTO.picture(),
+                profileRequestDTO.address(),
+                profileRequestDTO.picture() == null || profileRequestDTO.picture().isEmpty()
+                        ? "www.aircompany.images/default.ma"
+                        : profileRequestDTO.picture(),
                 user
         );
     }
@@ -19,10 +21,10 @@ public class ProfileMapper {
     public static ProfileResponseDTO toResponse(Profile profile){
         return new ProfileResponseDTO(
                 profile.getId(),
-                profile.getPicture(),
                 profile.getName(),
                 profile.getPhone(),
                 profile.getEmail(),
+                profile.getPicture(),
                 UserMapper.toResponseDTO(profile.getUser())
         );
     }

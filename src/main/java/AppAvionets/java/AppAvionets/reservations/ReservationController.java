@@ -34,18 +34,6 @@ public class ReservationController {
         return new ResponseEntity<>(reservationResponseDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/next/{userId}")
-    public ResponseEntity<List<ReservationResponseDTO>> getFutureReservationsByUserId(@RequestParam Long userId){
-        List<ReservationResponseDTO> reservationList = reservationService.findFutureReservations(userId);
-        return new ResponseEntity<>(reservationList, HttpStatus.OK);
-    }
-
-    @GetMapping("/past/{userId}")
-    public ResponseEntity<List<ReservationResponseDTO>> getPastReservationsByUserId(@RequestParam Long userId){
-        List<ReservationResponseDTO> reservationList = reservationService.findPastReservations(userId);
-        return new ResponseEntity<>(reservationList, HttpStatus.OK);
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<ReservationResponseDTO> updateReservationById(@PathVariable Long id, @RequestBody @Valid ReservationRequestDTO reservationRequestDTO){
         ReservationResponseDTO reservationResponseDTO = reservationService.updateReservationById(id, reservationRequestDTO);
@@ -57,5 +45,17 @@ public class ReservationController {
         reservationService.deleteReservationById(id);
         return new ResponseEntity<>("The reservation has been deleted.", HttpStatus.OK);
 
+    }
+
+    @GetMapping("/my-reservations")
+    public ResponseEntity<List<ReservationResponseDTO>> getReservationsByAuthenticatedUser(){
+        List<ReservationResponseDTO> userReservations = reservationService.getReservationsByAuthenticatedIdUser();
+        return new ResponseEntity<>(userReservations, HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<ReservationResponseDTO>> getReservationsByUserId(@PathVariable Long userId){
+        List<ReservationResponseDTO> userReservations = reservationService.getReservationByUserId(userId);
+        return new ResponseEntity<>(userReservations, HttpStatus.OK);
     }
 }

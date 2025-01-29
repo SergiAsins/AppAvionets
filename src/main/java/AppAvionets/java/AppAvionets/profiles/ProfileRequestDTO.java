@@ -22,12 +22,7 @@ public record ProfileRequestDTO(
     @NotEmpty
     String address,
 
-    String picture,
-
-    @NotNull(message = "The profile ID cannot be null")
-    Long userId
-
+    String picture
     ){
-
 }
 

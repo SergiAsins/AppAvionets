@@ -10,7 +10,6 @@ import AppAvionets.java.AppAvionets.flights.FlightRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
@@ -155,18 +154,6 @@ public class ReservationService {
         reservationRepository.deleteById(id);
     }
 
-    public List<ReservationResponseDTO> findFutureReservations(Long userId){
-        Timestamp actualDateTime = new Timestamp(System.currentTimeMillis());
-        List<Reservation> reservations = reservationRepository.findFutureReservations(userId, actualDateTime);
-        return reservations.stream().map(ReservationMapper::toResponseDto).collect(Collectors.toList());
-    }
-
-    public List<ReservationResponseDTO> findPastReservations(Long userId){
-        Timestamp actualDateTime = new Timestamp(System.currentTimeMillis());
-        List<Reservation> reservations = reservationRepository.findPastReservations(userId, actualDateTime);
-        return reservations.stream().map(ReservationMapper::toResponseDto).collect(Collectors.toList());
-    }
-
     public void updateFlightAvailableSeats(Reservation reservation, int newSeats){
         Flight flight = reservation.getFlight();
 
@@ -189,5 +176,41 @@ public class ReservationService {
             flight.setStatus(flight.getAvailableSeats() > 0);
             flightRepository.save(flight);
         }, 15, TimeUnit.SECONDS);
+    }
+
+    public List<ReservationResponseDTO> getReservationsByAuthenticatedIdUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        //Search the authenticated user in the DB
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if(userOptional.isEmpty()){
+            throw new AirCompanyNotFoundException("Authenticated user not found in the data base.");
+        }
+        User authenticatedUser = userOptional.get();
+
+        //Search the users related reservations
+        List<Reservation> userReservations = reservationRepository.findByUserId(authenticatedUser.getId());
+        if(userReservations.isEmpty()){
+            throw new AirCompanyNotFoundException("You do not have reservations yet. Want a ride, bro?");
+        }
+
+        return userReservations.stream()
+                .map(ReservationMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<ReservationResponseDTO> getReservationByUserId(Long userId){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if(userOptional.isEmpty()){
+            throw new AirCompanyNotFoundException("The user with Id " + userId + " is not  in the data base.");
+        }
+        List<Reservation> userReservations = reservationRepository.findByUserId(userId);
+        if(userReservations.isEmpty()){
+            throw new AirCompanyNotFoundException("No reservations for this user?");
+        }
+        return userReservations.stream()
+                .map(ReservationMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 }

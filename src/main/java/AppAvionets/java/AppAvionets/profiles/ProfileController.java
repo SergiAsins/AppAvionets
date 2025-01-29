@@ -50,4 +50,10 @@ public class ProfileController {
         ProfileResponseDTO profileResponseDTO = profileServices.findById(id);
         return new ResponseEntity<>(profileResponseDTO, HttpStatus.OK);
     }
+
+    @PutMapping("/modify")
+    ResponseEntity<ProfileResponseDTO> modifyProfile(@RequestBody @Valid ProfileRequestDTO profileRequestDTO){
+        ProfileResponseDTO profileResponseDTO = (ProfileResponseDTO) profileServices.modifyProfile(profileRequestDTO);
+        return new ResponseEntity<>(profileResponseDTO, HttpStatus.OK);
+    }
 }

@@ -22,7 +22,10 @@ public class Profile {
     private String phone;
     private String email;
     private String address;
+
     private String picture;
+
+
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = true)

@@ -3,6 +3,8 @@ package AppAvionets.java.AppAvionets.profiles;
 import AppAvionets.java.AppAvionets.exceptions.users.AirCompanyUserNotFoundException;
 import AppAvionets.java.AppAvionets.users.User;
 import AppAvionets.java.AppAvionets.users.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyNotFoundException;
 import AppAvionets.java.AppAvionets.exceptions.general.AirCompanyAlreadyExistsException;
@@ -22,18 +24,62 @@ public class ProfileServices {
     }
 
     public Object createProfile(ProfileRequestDTO profileRequestDTO) throws AirCompanyAlreadyExistsException, AirCompanyUserNotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        //Search the authenticated user in the DB
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if(userOptional.isEmpty()){
+            throw new AirCompanyNotFoundException("Authenticated user not found in the database.");
+        }
+        User authenticatedUser = userOptional.get();
+
+        //verify email
         Optional<Profile> existsProfile = profileRepository.findByEmail(profileRequestDTO.email());
         if (existsProfile.isPresent())
             throw new AirCompanyAlreadyExistsException("Profile already exists with this email.");
 
-        Optional<User> userOptional = userRepository.findById(profileRequestDTO.userId());
-        if (userOptional.isEmpty()) {
-            throw new AirCompanyUserNotFoundException("User not found with id " + profileRequestDTO.userId());
-        }
-
-        Profile profile = ProfileMapper.toEntity(profileRequestDTO, userOptional.get());
+        Profile profile = ProfileMapper.toEntity(profileRequestDTO, authenticatedUser);
         Profile savedProfile = profileRepository.save(profile);
         return ProfileMapper.toResponse(savedProfile);
+    }
+
+    public Object modifyProfile(ProfileRequestDTO profileRequestDTO) throws AirCompanyUserNotFoundException, AirCompanyUserNotFoundException{
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isEmpty()) {
+            throw new AirCompanyUserNotFoundException("Authenticated user not found in the database.");
+        }
+        User authenticatedUser = optionalUser.get();
+
+        Optional<Profile> optionalProfile = profileRepository.findByUserId(authenticatedUser.getId());
+        if(optionalProfile.isEmpty()){
+            throw new AirCompanyUserNotFoundException("No profile found for the authenticated user.");
+        }
+
+        Profile profileToModify = optionalProfile.get();
+        if (profileRequestDTO.name() != null && !profileRequestDTO.name().isEmpty()) {
+            profileToModify.setName(profileRequestDTO.name());
+        }
+        if (profileRequestDTO.phone() != null && !profileRequestDTO.phone().isEmpty()) {
+            profileToModify.setPhone(profileRequestDTO.phone());
+        }
+        if (profileRequestDTO.email() != null && !profileRequestDTO.email().isEmpty()) {
+            profileToModify.setEmail(profileRequestDTO.email());
+        }
+        if (profileRequestDTO.address() != null && !profileRequestDTO.address().isEmpty()) {
+            profileToModify.setAddress(profileRequestDTO.address());
+        }
+        if (profileRequestDTO.picture() == null || profileRequestDTO.picture().isEmpty()) {
+            profileToModify.setPicture("www.aircompany.images/default.ma");
+        } else {
+            profileToModify.setPicture(profileRequestDTO.picture());
+        }
+
+        Profile updatedProfile = profileRepository.save(profileToModify);
+        return ProfileMapper.toResponse(updatedProfile);
     }
 
     public ProfileResponseDTO findById(Long id) {
@@ -64,6 +110,5 @@ public class ProfileServices {
                 .map(ProfileMapper::toResponse)
                 .toList();
     }
-
 }
 

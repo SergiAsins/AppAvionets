@@ -13,4 +13,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
   @Query("SELECT a FROM Reservation a WHERE a.flight.id = :flightId AND a.ticketTime < :timestamp")
   List<Reservation> findPastReservations(@Param("flightId") Long flightId, @Param("timestamp") Timestamp timestamp);
+
+  List<Reservation> findByUserId(@Param("userId") Long userId);
+
 }
