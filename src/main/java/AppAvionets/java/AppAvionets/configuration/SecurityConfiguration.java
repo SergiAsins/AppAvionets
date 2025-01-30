@@ -59,11 +59,21 @@ public class SecurityConfiguration{
                                 .requestMatchers(endpoint).permitAll()
                                 .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
                                 .requestMatchers(endpoint + "/login").hasAnyRole("USER", "ADMIN")
+                                //users paths:
+                                .requestMatchers(HttpMethod.PUT, endpoint + "/users/my user").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.POST, endpoint + "/users").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, endpoint + "/users/{username}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, endpoint + "/users/{id}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, endpoint + "/users/{id}").hasRole("ADMIN")
+
+                                .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, endpoint + "/flights").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, endpoint + "/flights").hasRole("ADMIN")
+
                                 .requestMatchers(HttpMethod.POST, endpoint + "/airports").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, endpoint + "/airports").hasRole("ADMIN")
+
                                 .requestMatchers(HttpMethod.POST, endpoint + "/reservations").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.GET, endpoint + "/reservations/by-user").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.GET, endpoint + "/reservations/by-admin").hasAnyRole("USER", "ADMIN")

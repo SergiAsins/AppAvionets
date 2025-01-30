@@ -57,14 +57,14 @@ Public login is also possible for future Clients. Once inside the system, the us
 ## 📡 **API Endpoints**
 
 ### **Users**
-| Method | Endpoint                   | Description                    |
-|--------|----------------------------|--------------------------------|
-| PUT    | `/api/v1/users/my-user/`   | Modify the authenticated user. |
-| POST   | `/api/v1/users`            | Register a new user            |
-| GET    | `/api/v1/users/{id}`       | Get user by ID                 |
-| GET    | `/api/v1/users/{username}` | Search users by name           |
-| PUT    | `/api/v1/users/{id}`       | Update user by ID              |
-| DELETE | `/api/v1/users/{id}`       | Delete user                    |
+| Method | Endpoint                 | Description                    |
+|--------|--------------------------|--------------------------------|
+| PUT-   | `/api/v1/users/my-user   | Modify the authenticated user. |
+| POST-  | `/api/v1/users`          | Register a new user            |
+| GET-   | `/api/v1/users/{id}`     | Get user by ID                 |
+| GET-   | `/api/v1/users/{username}` | Search users by name           |
+| PUT    | `/api/v1/users/{id}`     | Update user by ID              |
+| DELETE | `/api/v1/users/{id}`     | Delete user                    |
 
 ### **Authentication**
 | Method | Endpoint                     | Description                            |
